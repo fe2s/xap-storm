@@ -31,9 +31,9 @@ service {
 		install "zookeeper_install.groovy"
 		start "zookeeper_start.groovy"
 		stop "zookeeper_stop.groovy"
-		//locator {
-		//	ServiceUtils.ProcessUtils.getPidsWithMainClass("org.apache.zookeeper.server.quorum.QuorumPeerMain")
-		//}
+		locator {
+			ServiceUtils.ProcessUtils.getPidsWithMainClass("org.apache.zookeeper.server.quorum.QuorumPeerMain")
+		}
 		monitors{
 			def dir=context.serviceDirectory
 			def metrics=[]
