@@ -3,6 +3,10 @@ import groovy.util.ConfigSlurper;
 import org.cloudifysource.dsl.utils.ServiceUtils
 import org.cloudifysource.utilitydomain.context.ServiceContextFactory
 
+
+
+serviceContext = ServiceContextFactory.getServiceContext()
+
 // xap installation pack 
 context=ServiceContextFactory.serviceContext
 config = new ConfigSlurper().parse(new File(context.serviceName+"-service.properties").toURL())
@@ -38,6 +42,9 @@ if (!context.isLocalCloud()) {
 //println "stderr: ${proc.err.text}"
 //println "stdout: ${proc.in.text}"
 
+locatorss = serviceContext.attributes.thisApplication["locators"]
+
+println locatorss
 
 def javaHome = "/home/user/java/"
 println "vertx.groovy: javaHome is ${javaHome}"
@@ -47,10 +54,11 @@ context.attributes.thisInstance["javaHome"] = javaHome as String
 def builder = new AntBuilder()
 builder.sequential {
 
-exec(executable:"sudo ${config.installDir}/${config.xapDir}/tools/apache/apache-lb-agent.sh") {
-            arg(line:"-apache /etc/httpd/ -conf-dir /etc/httpd/conf.d/ -apachectl /usr/sbin/apachectl -locators")
-            env(key:"JAVA_HOME", value:javaHome)
-            
-        }
 
-	}
+
+exec(executable:"sudo" , osfamily:"unix", failonerror:"false") {
+        arg("line":"${config.installDir}/${config.xapDir}/tools/apache/apache-lb-agent.sh -apache /etc/httpd/ -conf-dir /etc/httpd/conf.d/ -apachectl /usr/sbin/apachectl")    
+        env(key:"JAVA_HOME", value:javaHome)
+    }
+
+}
