@@ -98,3 +98,5 @@ new File("${config.installDir}/${config.name}/conf/storm.yaml").withWriter{ out-
 }
 
 
+sh "chmod +x path.sh"
+sh "./path.sh"

@@ -23,8 +23,8 @@ service {
 	type "APP_SERVER"
 	icon "xap.png"
 	//elastic false
-	numInstances 2
-	minAllowedInstances 2
+	numInstances 1
+	minAllowedInstances 1
 	maxAllowedInstances 3
 
 

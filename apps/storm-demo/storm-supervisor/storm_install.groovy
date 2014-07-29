@@ -122,6 +122,10 @@ new File("${config.installDir}/${config.name}/conf/storm.yaml").withWriter{ out-
   out.write(template.toString())
 }
 
+sh "chmod +x path.sh"
+sh "./path.sh"
+
+
 //------------------------------------
 //add host to other instances & nimbus
 
