@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.gigaspaces</groupId>
+        <artifactId>xap-storm-package</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>google-analytics</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <description>Realtime Google Analytics</description>
+
+    <modules>
+        <module>rest-service</module>
+        <module>space-model</module>
+        <module>storm-topology</module>
+        <module>feeder</module>
+        <module>space</module>
+    </modules>
+
+
+</project>

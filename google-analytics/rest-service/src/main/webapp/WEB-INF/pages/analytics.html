@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Realtime Google Analytics</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+    <script type="text/javascript" src="js/pageVisited.js"></script>
+    <script type="text/javascript" src="js/activeVisitorsChart.js"></script>
+    <script type="text/javascript" src="js/referralsChart.js"></script>
+    <script type="text/javascript" src="js/activePageChart.js"></script>
+    <script type="text/javascript" src="js/geoChart.js"></script>
+    <script type="text/javascript" src="js/chartDraw.js"></script>
+</head>
+<body>
+
+
+<div id="wrapper">
+    <div class="w1">
+        <div id="header">
+            <div class="holder">
+                <strong class="logo"><a href="#">Realtime Google Analytics</a></strong>
+            </div>
+        </div>
+        <div id="main">
+            <div class="chart-row">
+                <div id="chart_div">
+                    <strong class="info">
+                        <span class="top row">Right now</span>
+                        <span class="current row"></span>
+                        <span class="bottom row">active visitors on site</span>
+                    </strong>
+                </div>
+                <div class="holder">
+                    <div class="chart graph">
+                        <div id="columnchart_values"></div>
+                        <span class="legend">Page views</span>
+                    </div>
+                    <div class="chart">
+                        <div id="geo_div" style="width: 900px; height: 500px;"></div>
+                        <span class="legend">Active countries for last 10 sec</span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="tables-holder">
+                <div class="table">
+                    <div class="table-title-wrapper" >
+                        <span class="table-title">Top Active Referrals</span><span class="table-title-comment">for last 10 sec</span>
+                    </div>
+                    <div class="table-content" id='referrals_table_div'></div>
+                </div>
+                <div class="table">
+                    <div class="table-title-wrapper" >
+                        <span class="table-title">Top Active Pages</span><span class="table-title-comment">for last 10 sec</span>
+                    </div>
+                    <div class="table-content" id='active_page_table_div'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
