@@ -40,16 +40,6 @@ application {
 	}
 
 	service {
-		name = "streamdriver"
-		dependsOn = ["xap-container"]
-	}
-
-	service {
-		name = "xapstream-pus"
-		dependsOn = ["storm-supervisor","xap-container"]
-	}
-
-	service {
 		name = "apacheLB"
 		dependsOn = ["xap-container"]
 	}
