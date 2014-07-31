@@ -85,7 +85,7 @@ public class XAPSimpleSpout<T> extends BaseRichSpout {
 
     @Override
     public Map<String, Object> getComponentConfiguration() {
-        // SimpleStream doesn't support concurrent consumers,
+        // SimpleStream doesn't support concurrent consumers if reading not under tx
         // so set spout task parallel to 1
         Map<String, Object> conf = new HashMap<String, Object>();
         conf.put(Config.TOPOLOGY_MAX_TASK_PARALLELISM, 1);

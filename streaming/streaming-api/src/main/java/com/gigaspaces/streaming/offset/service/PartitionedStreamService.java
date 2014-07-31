@@ -7,7 +7,6 @@ import java.util.List;
 /**
  * @author Oleksiy_Dyagilev
  */
-
 public interface PartitionedStreamService<T> {
 
     void write(@Routing int partitionRouting, String streamId, T obj);

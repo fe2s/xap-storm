@@ -38,6 +38,7 @@ public class ChartDataService {
         return space.readById(GeoReport.class, 1L);
     }
 
+    // TODO: optimize model to get all reports with 1 API call
     public OverallChartDataReport getOverallChartDataReport() {
         OverallChartDataReport chartDataReport = new OverallChartDataReport();
 
