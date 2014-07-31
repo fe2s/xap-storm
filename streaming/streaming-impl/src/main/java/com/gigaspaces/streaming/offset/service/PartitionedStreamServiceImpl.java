@@ -6,6 +6,7 @@ import org.openspaces.remoting.RemotingService;
 import org.openspaces.remoting.Routing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,10 +28,12 @@ public class PartitionedStreamServiceImpl<T> implements PartitionedStreamService
         streamManager.<T>getStream(streamId).writeBatch(objects);
     }
 
+    @Transactional
     public List<T> readBatch(@Routing int partitionRouting, String streamId, long batchId, int count) {
         return streamManager.<T>getStream(streamId).readBatch(batchId, count);
     }
 
+    @Transactional
     public void ack(@Routing int partitionRouting, String streamId, long batchId) {
         streamManager.<T>getStream(streamId).ack(batchId);
     }
