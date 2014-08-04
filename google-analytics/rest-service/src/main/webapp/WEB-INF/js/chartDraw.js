@@ -21,11 +21,9 @@ function drawChartsAJAX(){
 
 function successCharts(data) {
 
-    successActivePageChart(data.activePage);
-    successVisitors(data.currentUserCount);
-    successGeoChart(data.geoInfo);
-    requestedPageData = {windowLengthInSeconds: data.windowLengthInSeconds,
-                         slotLengthInSeconds: data.slotLengthInSeconds, counts: data.pageCounts}
-    successRequestedPageChart(requestedPageData);
-    successReferralsTable(data.referrals);
+    successActivePageChart(data.topUrlsReport.topUrls);
+    successVisitors(data.activeUsersReport.activeUsersNumber);
+    successGeoChart(data.geoReport.countryCountMap);
+    successRequestedPageChart(data.pageViewTimeSeriesReport);
+    successReferralsTable(data.topReferralsReport.topReferrals);
 }

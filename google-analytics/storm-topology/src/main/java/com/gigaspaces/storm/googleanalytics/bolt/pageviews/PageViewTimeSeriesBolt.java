@@ -5,10 +5,13 @@ import backtype.storm.topology.BasicOutputCollector;
 import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
+import com.gigaspaces.client.ChangeSet;
 import com.gigaspaces.storm.bolt.XAPAwareBasicBolt;
+import com.gigaspaces.storm.googleanalytics.model.reports.OverallReport;
 import com.gigaspaces.storm.googleanalytics.model.reports.PageViewTimeSeriesReport;
 import com.gigaspaces.storm.googleanalytics.tools.SlidingWindowCounter;
 import com.gigaspaces.storm.googleanalytics.util.TupleHelpers;
+import com.j_spaces.core.client.SQLQuery;
 import org.apache.log4j.Logger;
 
 import java.util.Arrays;
@@ -65,7 +68,8 @@ public class PageViewTimeSeriesBolt extends XAPAwareBasicBolt {
         collector.emit(Arrays.<Object>asList(report));
 
         // write to xap
-        space.write(report);
+        space.change(new SQLQuery<>(OverallReport.class, "id = 1"), new ChangeSet().set("pageViewTimeSeriesReport", report));
+
     }
 
     @Override

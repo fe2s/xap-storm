@@ -10,11 +10,8 @@ import java.io.Serializable;
 /**
  * @author Oleksiy_Dyagilev
  */
-@SpaceClass
 public class ActiveUsersReport implements Serializable {
 
-    // singleton object in the space
-    private Long id = 1L;
     private Long activeUsersNumber;
 
     public ActiveUsersReport() {
@@ -24,20 +21,29 @@ public class ActiveUsersReport implements Serializable {
         this.activeUsersNumber = activeUsersNumber;
     }
 
-    @SpaceId
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getActiveUsersNumber() {
         return activeUsersNumber;
     }
 
     public void setActiveUsersNumber(Long activeUsersNumber) {
         this.activeUsersNumber = activeUsersNumber;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ActiveUsersReport that = (ActiveUsersReport) o;
+
+        if (activeUsersNumber != null ? !activeUsersNumber.equals(that.activeUsersNumber) : that.activeUsersNumber != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return activeUsersNumber != null ? activeUsersNumber.hashCode() : 0;
     }
 }

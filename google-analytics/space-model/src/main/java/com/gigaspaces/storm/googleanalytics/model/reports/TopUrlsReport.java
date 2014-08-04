@@ -9,11 +9,8 @@ import java.util.LinkedHashMap;
 /**
  * @author Oleksiy_Dyagilev
  */
-@SpaceClass
 public class TopUrlsReport implements Serializable {
 
-    // singleton object in the space
-    private Long id = 1L;
     private LinkedHashMap<String, Long> topUrls;
 
     public TopUrlsReport() {
@@ -23,20 +20,28 @@ public class TopUrlsReport implements Serializable {
         this.topUrls = topUrls;
     }
 
-    @SpaceId
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public LinkedHashMap<String, Long> getTopUrls() {
         return topUrls;
     }
 
     public void setTopUrls(LinkedHashMap<String, Long> topUrls) {
         this.topUrls = topUrls;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TopUrlsReport that = (TopUrlsReport) o;
+
+        if (topUrls != null ? !topUrls.equals(that.topUrls) : that.topUrls != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return topUrls != null ? topUrls.hashCode() : 0;
     }
 }

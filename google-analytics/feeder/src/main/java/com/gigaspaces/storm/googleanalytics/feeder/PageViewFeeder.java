@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 /**
+ * Halper class witch generate random {@link com.gigaspaces.storm.googleanalytics.model.feeder.PageView} request.
+ *
  * @author Mykola_Zalyayev
  */
 @Component
@@ -40,14 +42,6 @@ public class PageViewFeeder {
         put("http://www.gigaspaces.com/user/register?destination=node%2F1", 6);
     }};
 
-    private static final Map<String, Integer> IPS_PROBABILITY = new HashMap<String, Integer>() {{
-       put("3.255.255.255",10);
-       put("117.91.92.052",8);
-       put("151.38.39.114",3);
-       put("198.162.54.153",5);
-       put("121.44.22.177",1);
-    }};
-
     private List<String> urls = new ArrayList<>();
     private List<String> referrals = new ArrayList<>();
     private List<String> sessions = new ArrayList<>();
@@ -62,6 +56,11 @@ public class PageViewFeeder {
         populateIps();
     }
 
+    /**
+     * Generate random {@link com.gigaspaces.storm.googleanalytics.model.feeder.PageView} request.
+     *
+     * @return {@link com.gigaspaces.storm.googleanalytics.model.feeder.PageView} request.
+     */
     public PageView nextRequest() {
         PageView pageView = new PageView();
         pageView.setPage(random(urls));
@@ -71,25 +70,31 @@ public class PageViewFeeder {
         return pageView;
     }
 
-    public List<PageView> nextRequestsList(int count){
+    /**
+     * Generate list of random {@link com.gigaspaces.storm.googleanalytics.model.feeder.PageView} request.
+     *
+     * @param count - number of request to generate.
+     * @return list of {@link com.gigaspaces.storm.googleanalytics.model.feeder.PageView} request.
+     */
+    public List<PageView> nextRequestsList(int count) {
         List<PageView> pageViewList = new ArrayList<>(count);
-        for(int i = 0;i<count;i++){
+        for (int i = 0; i < count; i++) {
             pageViewList.add(nextRequest());
         }
         return pageViewList;
     }
 
-    private void populateSessions(){
-        for(int i = 0; i<1000; i++){
-            for(int j = 0; j< (Math.random()*10-1)+1; j++){
-                sessions.add("sessionid"+i);
+    private void populateSessions() {
+        for (int i = 0; i < 1000; i++) {
+            for (int j = 0; j < (Math.random() * 10 - 1) + 1; j++) {
+                sessions.add("sessionid" + i);
             }
         }
     }
 
-    private void populateIps(){
-        for(String sessionId: sessions){
-            ips.put(sessionId,IpConverter.longToIp(r.nextLong()));
+    private void populateIps() {
+        for (String sessionId : sessions) {
+            ips.put(sessionId, IpConverter.longToIp(r.nextLong()));
         }
     }
 

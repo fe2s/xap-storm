@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
+ * Class taht use Apache http client for sending post request to rest-service.
+ *
  * @author Mykola_Zalyayev
  */
 @Component
@@ -22,10 +24,26 @@ public class HttpRequestSender {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
+    /**
+     * Send one {@link com.gigaspaces.storm.googleanalytics.model.feeder.PageView} request to specific host.
+     *
+     * @param feederRequest - {@link com.gigaspaces.storm.googleanalytics.model.feeder.PageView}
+     * @param host - host to rest-service
+     *
+     * @throws Exception - if not able to send request to server.
+     */
     public void sendRequest(PageView feederRequest, String host) throws Exception {
         send(feederRequest,host+"/rest-service/rest/trackPageView");
     }
 
+    /**
+     * Send list of {@link com.gigaspaces.storm.googleanalytics.model.feeder.PageView} requests to specific host.
+     *
+     * @param feederRequest - list of {@link com.gigaspaces.storm.googleanalytics.model.feeder.PageView}
+     * @param host - host to rest-service
+     *
+     * @throws Exception - if not able to send request to server.
+     */
     public void sendRequest(List<PageView> feederRequest, String host) throws Exception {
         send(feederRequest,host+"/rest-service/rest/trackPageViewList");
     }

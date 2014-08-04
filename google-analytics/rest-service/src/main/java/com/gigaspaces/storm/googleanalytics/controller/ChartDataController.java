@@ -1,6 +1,5 @@
 package com.gigaspaces.storm.googleanalytics.controller;
 
-import com.gigaspaces.storm.googleanalytics.model.OverallChartDataReport;
 import com.gigaspaces.storm.googleanalytics.model.reports.*;
 import com.gigaspaces.storm.googleanalytics.service.ChartDataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +59,7 @@ public class ChartDataController {
 
     @RequestMapping(value = "/overallChartsData", method = RequestMethod.GET)
     @ResponseBody
-    public OverallChartDataReport getOverallChartDataReport() {
+    public OverallReport getOverallChartDataReport() {
         return service.getOverallChartDataReport();
     }
 }

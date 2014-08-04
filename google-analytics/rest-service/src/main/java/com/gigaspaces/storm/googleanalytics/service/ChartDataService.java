@@ -1,13 +1,10 @@
 package com.gigaspaces.storm.googleanalytics.service;
 
-import com.gigaspaces.storm.googleanalytics.model.OverallChartDataReport;
 import com.gigaspaces.storm.googleanalytics.model.reports.*;
+import com.j_spaces.core.client.SQLQuery;
 import org.openspaces.core.GigaSpace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 /**
  * @author Mykola_Zalyayev
@@ -19,47 +16,33 @@ public class ChartDataService {
     private GigaSpace space;
 
     public ActiveUsersReport getCurrentVisitors() {
-        return space.readById(ActiveUsersReport.class, 1L);
+        SQLQuery<OverallReport> query = new SQLQuery<>(OverallReport.class,"id = 1").setProjections("activeUsersReport");
+        return space.read(query).getActiveUsersReport();
     }
 
     public TopReferralsReport getReferrals() {
-        return space.readById(TopReferralsReport.class, 1L);
+
+        SQLQuery<OverallReport> query = new SQLQuery<>(OverallReport.class,"id = 1").setProjections("topReferralsReport");
+        return space.read(query).getTopReferralsReport();
     }
 
     public TopUrlsReport getActivePage() {
-        return space.readById(TopUrlsReport.class, 1L);
+        SQLQuery<OverallReport> query = new SQLQuery<>(OverallReport.class,"id = 1").setProjections("topUrlsReport");
+        return space.read(query).getTopUrlsReport();
     }
 
     public PageViewTimeSeriesReport getRequestedPageCount() {
-        return space.readById(PageViewTimeSeriesReport.class, 1L);
+        SQLQuery<OverallReport> query = new SQLQuery<>(OverallReport.class,"id = 1").setProjections("pageViewTimeSeriesReport");
+        return space.read(query).getPageViewTimeSeriesReport();
     }
 
     public GeoReport getGeoReport() {
-        return space.readById(GeoReport.class, 1L);
+        SQLQuery<OverallReport> query = new SQLQuery<>(OverallReport.class,"id = 1").setProjections("geoReport");
+        return space.read(query).getGeoReport();
     }
 
     // TODO: optimize model to get all reports with 1 API call
-    public OverallChartDataReport getOverallChartDataReport() {
-        OverallChartDataReport chartDataReport = new OverallChartDataReport();
-
-        ActiveUsersReport usersReport = getCurrentVisitors();
-        chartDataReport.setCurrentUserCount(usersReport != null ? usersReport.getActiveUsersNumber() : 0L);
-
-        TopReferralsReport referralsReport = getReferrals();
-        chartDataReport.setReferrals(referralsReport != null ? referralsReport.getTopReferrals() : new LinkedHashMap<String, Long>());
-
-        TopUrlsReport urlsReport = getActivePage();
-        chartDataReport.setActivePage(urlsReport != null ? urlsReport.getTopUrls() : new LinkedHashMap<String, Long>());
-
-        PageViewTimeSeriesReport timeSeriesReport = getRequestedPageCount();
-
-        chartDataReport.setSlotLengthInSeconds(timeSeriesReport != null ? timeSeriesReport.getSlotLengthInSeconds() : 1);
-        chartDataReport.setWindowLengthInSeconds(timeSeriesReport != null ? timeSeriesReport.getWindowLengthInSeconds() : 60);
-        chartDataReport.setPageCounts(timeSeriesReport != null ? timeSeriesReport.getCounts() : new long[0]);
-
-        GeoReport geoReport = getGeoReport();
-        chartDataReport.setGeoInfo(geoReport != null ? geoReport.getCountryCountMap() : new HashMap<String, Long>());
-
-        return chartDataReport;
+    public OverallReport getOverallChartDataReport() {
+        return space.readById(OverallReport.class, 1L);
     }
 }

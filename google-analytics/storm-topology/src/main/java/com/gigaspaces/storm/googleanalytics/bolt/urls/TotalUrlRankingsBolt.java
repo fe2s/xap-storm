@@ -1,9 +1,12 @@
 package com.gigaspaces.storm.googleanalytics.bolt.urls;
 
 import backtype.storm.topology.BasicOutputCollector;
+import com.gigaspaces.client.ChangeSet;
 import com.gigaspaces.storm.googleanalytics.bolt.generic.TotalRankingsBolt;
+import com.gigaspaces.storm.googleanalytics.model.reports.OverallReport;
 import com.gigaspaces.storm.googleanalytics.model.reports.TopUrlsReport;
 import com.gigaspaces.storm.googleanalytics.tools.Rankable;
+import com.j_spaces.core.client.SQLQuery;
 
 import java.util.LinkedHashMap;
 
@@ -26,6 +29,7 @@ public class TotalUrlRankingsBolt extends TotalRankingsBolt {
         }
 
         TopUrlsReport topUrlsReport = new TopUrlsReport(topReferrals);
-        space.write(topUrlsReport);
+
+        space.change(new SQLQuery<>(OverallReport.class, "id = 1"), new ChangeSet().set("topUrlsReport", topUrlsReport));
     }
 }

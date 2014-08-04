@@ -9,24 +9,11 @@ import java.util.Arrays;
 /**
  * @author Oleksiy_Dyagilev
  */
-@SpaceClass
 public class PageViewTimeSeriesReport implements Serializable {
-
-    // singleton object in the space
-    private Long id = 1L;
 
     private int windowLengthInSeconds;
     private int slotLengthInSeconds;
     private long[] counts;
-
-    @SpaceId
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public int getWindowLengthInSeconds() {
         return windowLengthInSeconds;
@@ -53,9 +40,30 @@ public class PageViewTimeSeriesReport implements Serializable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PageViewTimeSeriesReport that = (PageViewTimeSeriesReport) o;
+
+        if (slotLengthInSeconds != that.slotLengthInSeconds) return false;
+        if (windowLengthInSeconds != that.windowLengthInSeconds) return false;
+        if (!Arrays.equals(counts, that.counts)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = windowLengthInSeconds;
+        result = 31 * result + slotLengthInSeconds;
+        result = 31 * result + (counts != null ? Arrays.hashCode(counts) : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "PageViewTimeSeriesReport{" +
-                "id=" + id +
                 ", windowLengthInSeconds=" + windowLengthInSeconds +
                 ", slotLengthInSeconds=" + slotLengthInSeconds +
                 ", counts=" + Arrays.toString(counts) +

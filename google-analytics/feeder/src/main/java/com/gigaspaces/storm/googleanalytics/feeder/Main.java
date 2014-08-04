@@ -4,6 +4,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
+ * Main class for google analytics feeder.
+ *
  * @author Mykola_Zalyayev
  */
 public class Main {

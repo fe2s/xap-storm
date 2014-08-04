@@ -2,8 +2,11 @@ package com.gigaspaces.storm.googleanalytics.bolt.geoip;
 
 import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.tuple.Fields;
+import com.gigaspaces.client.ChangeSet;
 import com.gigaspaces.storm.googleanalytics.bolt.generic.RollingCountBolt;
 import com.gigaspaces.storm.googleanalytics.model.reports.GeoReport;
+import com.gigaspaces.storm.googleanalytics.model.reports.OverallReport;
+import com.j_spaces.core.client.SQLQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +31,9 @@ public class CountryRollingCountBolt extends RollingCountBolt<String> {
         // write to space
         GeoReport geoReport = new GeoReport();
         geoReport.setCountryCountMap(counts);
-        space.write(geoReport);
+
+        space.change(new SQLQuery<>(OverallReport.class, "id = 1"), new ChangeSet().set("geoReport", geoReport));
+
     }
 
     @Override

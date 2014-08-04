@@ -3,6 +3,8 @@ package com.gigaspaces.storm.googleanalytics.feeder;
 import org.springframework.stereotype.Component;
 
 /**
+ * Helpers class what generate number of elements in next request.
+ *
  * @author Mykola_Zalyayev
  */
 @Component
@@ -24,6 +26,12 @@ public class RequestCountHelper {
         currentState = State.NORMAL;
     }
 
+    /**
+     * After some period choose state from {@link com.gigaspaces.storm.googleanalytics.feeder.RequestCountHelper.State}
+     * and in accordance with the state change number of items.
+     *
+     * @return number of items for next request
+     */
     public int nextCount() {
         if (lastLoadIncreaseTime + loadIncreaseInterval < System.currentTimeMillis()) {
             lastLoadIncreaseTime = System.currentTimeMillis();
@@ -51,14 +59,14 @@ public class RequestCountHelper {
         return (int) (Math.random() * (maxSendCount - minSendCount) + maxSendCount);
     }
 
-    private void increaseBatchSize(int increaseTo){
-        if(batchSize<increaseTo){
+    private void increaseBatchSize(int increaseTo) {
+        if (batchSize < increaseTo) {
             batchSize++;
         }
     }
 
-    private void decreaseBatchSize(int decreaseTo){
-        if(batchSize> decreaseTo){
+    private void decreaseBatchSize(int decreaseTo) {
+        if (batchSize > decreaseTo) {
             batchSize--;
         }
     }

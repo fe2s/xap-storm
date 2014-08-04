@@ -6,9 +6,12 @@ import backtype.storm.topology.BasicOutputCollector;
 import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
+import com.gigaspaces.client.ChangeSet;
 import com.gigaspaces.storm.bolt.XAPAwareBasicBolt;
 import com.gigaspaces.storm.googleanalytics.model.reports.ActiveUsersReport;
+import com.gigaspaces.storm.googleanalytics.model.reports.OverallReport;
 import com.gigaspaces.storm.googleanalytics.util.TupleHelpers;
+import com.j_spaces.core.client.SQLQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,7 +61,8 @@ public class TotalActiveUsersBolt extends XAPAwareBasicBolt {
         }
         log.debug("Total number of active users " + totalActiveUsers);
         collector.emit(Arrays.<Object>asList(totalActiveUsers));
-        space.write(new ActiveUsersReport(totalActiveUsers));
+
+        space.change(new SQLQuery<>(OverallReport.class, "id = 1"), new ChangeSet().set("activeUsersReport", new ActiveUsersReport(totalActiveUsers)));
     }
 
     @Override
