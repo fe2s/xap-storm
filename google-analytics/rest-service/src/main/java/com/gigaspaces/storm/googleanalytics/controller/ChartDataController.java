@@ -21,42 +21,6 @@ public class ChartDataController {
     @Autowired
     private ChartDataService service;
 
-    @RequestMapping(value = "/currentVisitors", method = RequestMethod.GET)
-    @ResponseBody
-    public Long getCurrentVisitors() {
-        ActiveUsersReport usersReport = service.getCurrentVisitors();
-
-        return usersReport != null ? usersReport.getActiveUsersNumber() : 0L;
-    }
-
-    @RequestMapping(value = "/referrals", method = RequestMethod.GET)
-    @ResponseBody
-    public LinkedHashMap<String, Long> getReferrals() {
-        TopReferralsReport referralsReport = service.getReferrals();
-        return referralsReport != null ? referralsReport.getTopReferrals() : new LinkedHashMap<String, Long>();
-    }
-
-    @RequestMapping(value = "/activePage", method = RequestMethod.GET)
-    @ResponseBody
-    public LinkedHashMap<String, Long> getActivePage() {
-        TopUrlsReport urlsReport = service.getActivePage();
-        return urlsReport != null ? urlsReport.getTopUrls() : new LinkedHashMap<String, Long>();
-    }
-
-    @RequestMapping(value = "/requestedPageCount", method = RequestMethod.GET)
-    @ResponseBody
-    public PageViewTimeSeriesReport getRequestedPageCount() {
-        PageViewTimeSeriesReport report = service.getRequestedPageCount();
-        return report != null ? report : new PageViewTimeSeriesReport();
-    }
-
-    @RequestMapping(value = "/geoLocationCount", method = RequestMethod.GET)
-    @ResponseBody
-    public Map<String, Long> geoReport() {
-        GeoReport report = service.getGeoReport();
-        return report != null ? report.getCountryCountMap() : new HashMap<String, Long>();
-    }
-
     @RequestMapping(value = "/overallChartsData", method = RequestMethod.GET)
     @ResponseBody
     public OverallReport getOverallChartDataReport() {

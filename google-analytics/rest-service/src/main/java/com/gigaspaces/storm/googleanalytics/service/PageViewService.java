@@ -25,10 +25,6 @@ public class PageViewService implements InitializingBean {
         stream = new SimpleStream<>(space, new PageView());
     }
 
-    public void track(PageView pageView) {
-        stream.write(pageView);
-    }
-
     public void track(List<PageView> pageViewList) {
         stream.writeBatch(pageViewList);
     }

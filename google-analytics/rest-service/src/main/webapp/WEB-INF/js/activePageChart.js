@@ -1,25 +1,25 @@
-var activePageTable;
+var topUrlsReport;
 
-var activePageOption = {allowHtml: true, showRowNumber: true, is3D: true, title: 'Current page activities'};
+var topUrlsReportOptions = {allowHtml: true, showRowNumber: true, is3D: true, title: 'Current page activities'};
 
-var activePageHasFocus = false;
+var topUrlsReportHasFocus = false;
 
-function drawActivePage() {
+function initTopUrlsReport() {
 
 	var block = document.getElementById('active_page_table_div');
-    activePageOption.width = block.clientWidth;
-    activePageTable = new google.visualization.Table(block);
+    topUrlsReportOptions.width = block.clientWidth;
+    topUrlsReport = new google.visualization.Table(block);
 
     $("#active_page_table_div").mouseenter(function() {
-        activePageHasFocus = true;
+        topUrlsReportHasFocus = true;
     });
     $("#active_page_table_div").mouseleave(function() {
-        activePageHasFocus = false;
+        topUrlsReportHasFocus = false;
     });
 }
 
-function successActivePageChart(data) {
-    if(activePageHasFocus){
+function drawTopUrlsReport(data) {
+    if(topUrlsReportHasFocus){
         return;
     }
 
@@ -45,5 +45,5 @@ function successActivePageChart(data) {
     barFormatter.format(tableData, 2); // Apply formatter to second column
 
     tableData.sort([{column: 1, desc:true}, {column: 0}])
-    activePageTable.draw(tableData, activePageOption);
+    topUrlsReport.draw(tableData, topUrlsReportOptions);
 }

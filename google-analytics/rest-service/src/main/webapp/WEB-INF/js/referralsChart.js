@@ -4,7 +4,7 @@ var referralsOption = {showRowNumber: true, is3D: true, title: 'Current page act
 
 var referralsHasFocus = false;
 
-function drawReferrals() {
+function initTopReferralsReport() {
 
     var block = document.getElementById('referrals_table_div');
     referralsOption.width = block.clientWidth;
@@ -18,7 +18,7 @@ function drawReferrals() {
     });
 }
 
-function successReferralsTable(data) {
+function drawTopReferralsReport(data) {
     if(referralsHasFocus){
         return;
     }

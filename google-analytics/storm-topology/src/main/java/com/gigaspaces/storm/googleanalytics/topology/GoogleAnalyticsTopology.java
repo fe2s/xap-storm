@@ -18,7 +18,6 @@ import com.gigaspaces.storm.googleanalytics.bolt.referrals.TotalReferralRankings
 import com.gigaspaces.storm.googleanalytics.bolt.urls.TotalUrlRankingsBolt;
 import com.gigaspaces.storm.googleanalytics.bolt.urls.UrlRollingCountBolt;
 import com.gigaspaces.storm.googleanalytics.spout.PageViewSpout;
-import com.gigaspaces.storm.googleanalytics.spout.TestPageViewSpout;
 import com.gigaspaces.storm.googleanalytics.util.StormRunner;
 
 /**
@@ -32,12 +31,17 @@ public class GoogleAnalyticsTopology {
         Config conf = createTopologyConfiguration();
         conf.setNumWorkers(2);
 
-        if (args != null && args.length > 1) {
-            conf.put(ConfigConstants.XAP_SPACE_URL_KEY, "jini://"+args[1]+"/*/space");
-            StormSubmitter.submitTopologyWithProgressBar(args[0], conf, stormTopology);
-        } else {
+        if (args.length == 2) {
+            String topologyName = args[0];
+            String gsmLocator = args[1];
+
+            conf.put(ConfigConstants.XAP_SPACE_URL_KEY, "jini://" + gsmLocator + "/*/space");
+            StormSubmitter.submitTopologyWithProgressBar(topologyName, conf, stormTopology);
+        } else if(args.length == 0){
             conf.put(ConfigConstants.XAP_SPACE_URL_KEY, "jini://*/*/space");
             StormRunner.runTopologyLocally(stormTopology, "topology", conf, 100000);
+        } else {
+            System.err.println("Unexpected number of parameters");
         }
     }
 
@@ -100,7 +104,6 @@ public class GoogleAnalyticsTopology {
         builder.setBolt(geoIp, new GeoIpBolt(), 3).shuffleGrouping(spoutId);
         builder.setBolt(countryAgg, new CountryRollingCountBolt(10, 1), 1).globalGrouping(geoIp);
     }
-
 
 
 }

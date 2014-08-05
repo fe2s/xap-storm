@@ -4,7 +4,7 @@ var geoOption = {};
 
 var geoChartHasFocus = false;
 
-function drawGeo() {
+function initGeoReport() {
 
     var block = document.getElementById('geo_div');
     var ratio = block.clientWidth / block.clientHeight;
@@ -20,7 +20,7 @@ function drawGeo() {
     });
 }
 
-function successGeoChart(data) {
+function drawGeoReport(data) {
     if(geoChartHasFocus){
         return;
     }

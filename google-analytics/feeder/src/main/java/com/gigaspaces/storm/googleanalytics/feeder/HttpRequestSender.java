@@ -8,8 +8,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -25,32 +23,16 @@ public class HttpRequestSender {
     private final ObjectMapper mapper = new ObjectMapper();
 
     /**
-     * Send one {@link com.gigaspaces.storm.googleanalytics.model.feeder.PageView} request to specific host.
-     *
-     * @param feederRequest - {@link com.gigaspaces.storm.googleanalytics.model.feeder.PageView}
-     * @param host - host to rest-service
-     *
-     * @throws Exception - if not able to send request to server.
-     */
-    public void sendRequest(PageView feederRequest, String host) throws Exception {
-        send(feederRequest,host+"/rest-service/rest/trackPageView");
-    }
-
-    /**
      * Send list of {@link com.gigaspaces.storm.googleanalytics.model.feeder.PageView} requests to specific host.
      *
      * @param feederRequest - list of {@link com.gigaspaces.storm.googleanalytics.model.feeder.PageView}
-     * @param host - host to rest-service
-     *
+     * @param host          - host to rest-service
      * @throws Exception - if not able to send request to server.
      */
     public void sendRequest(List<PageView> feederRequest, String host) throws Exception {
-        send(feederRequest,host+"/rest-service/rest/trackPageViewList");
-    }
-
-    private void send(Object feederRequest, String url) throws Exception {
 
         String jsonValue = mapper.writeValueAsString(feederRequest);
+        String url = host + "/rest-service/rest/trackPageViewList";
 
         HttpClient client = new DefaultHttpClient();
 

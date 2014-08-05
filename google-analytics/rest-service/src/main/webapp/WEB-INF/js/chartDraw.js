@@ -4,10 +4,10 @@ google.setOnLoadCallback(drawCharts);
 
 function drawCharts(){
 
-    drawActivePage();
-    drawGeo();
-    drawRequestedPage();
-    drawReferrals();
+    initTopUrlsReport();
+    initGeoReport();
+    initPageViewTimeSeries();
+    initTopReferralsReport();
 
 
     drawChartsAJAX()
@@ -21,9 +21,9 @@ function drawChartsAJAX(){
 
 function successCharts(data) {
 
-    successActivePageChart(data.topUrlsReport.topUrls);
-    successVisitors(data.activeUsersReport.activeUsersNumber);
-    successGeoChart(data.geoReport.countryCountMap);
-    successRequestedPageChart(data.pageViewTimeSeriesReport);
-    successReferralsTable(data.topReferralsReport.topReferrals);
+    drawTopUrlsReport(data.topUrlsReport.topUrls);
+    drawActiveUsersReport(data.activeUsersReport.activeUsersNumber);
+    drawGeoReport(data.geoReport.countryCountMap);
+    drawPageViewTimeSeries(data.pageViewTimeSeriesReport);
+    drawTopReferralsReport(data.topReferralsReport.topReferrals);
 }

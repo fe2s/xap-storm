@@ -26,12 +26,6 @@ public class AnalyticsEndpointController {
     @Autowired
     private PageViewService pageViewService;
 
-    @RequestMapping(value = "/trackPageView", method = RequestMethod.POST)
-    @ResponseBody
-    public void trackPageView(@RequestBody PageView pageView) {
-        pageViewService.track(pageView);
-    }
-
     @RequestMapping(value = "/trackPageViewList", method = RequestMethod.POST)
     @ResponseBody
     public void trackPageViewList(@RequestBody List<PageView> pageViewList) {

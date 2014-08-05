@@ -8,7 +8,7 @@ var pageVisitsOptions = {title:"", width:600, height:400,
                 legend: { position: "none" }}
 
 
-function drawRequestedPage() {
+function initPageViewTimeSeries() {
 
     var block = document.getElementById('columnchart_values');
     var ratio = pageVisitsOptions.width / pageVisitsOptions.height;
@@ -17,7 +17,7 @@ function drawRequestedPage() {
     pageVisitsOptions.height = pageVisitsOptions.width / ratio;
 }
 
-function successRequestedPageChart(data) {
+function drawPageViewTimeSeries(data) {
     var tableData = new google.visualization.DataTable();
     // Create and populate the data table.
     tableData.addColumn('number', 'Time');
