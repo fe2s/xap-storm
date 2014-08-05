@@ -47,7 +47,7 @@ public class GoogleAnalyticsTopology {
 
     private static Config createTopologyConfiguration() {
         Config conf = new Config();
-        conf.setDebug(true);
+//        conf.setDebug(true);
         return conf;
     }
 
