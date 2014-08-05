@@ -68,7 +68,7 @@ public class PageViewTimeSeriesBolt extends XAPAwareBasicBolt {
         collector.emit(Arrays.<Object>asList(report));
 
         // write to xap
-        space.change(new SQLQuery<>(OverallReport.class, "id = 1"), new ChangeSet().set("pageViewTimeSeriesReport", report));
+        space.change(new SQLQuery<>(OverallReport.class, "id = 'gigaspaces.com'"), new ChangeSet().set("pageViewTimeSeriesReport", report));
 
     }
 

@@ -16,6 +16,6 @@ public class ChartDataService {
     private GigaSpace space;
 
     public OverallReport getOverallChartDataReport() {
-        return space.readById(OverallReport.class, 1L);
+        return space.readById(OverallReport.class, "gigaspaces.com");
     }
 }

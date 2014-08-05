@@ -30,6 +30,6 @@ public class TotalReferralRankingsBolt extends TotalRankingsBolt {
 
         TopReferralsReport topReferralsReport = new TopReferralsReport(topReferrals);
 
-        space.change(new SQLQuery<>(OverallReport.class, "id = 1"), new ChangeSet().set("topReferralsReport", topReferralsReport));
+        space.change(new SQLQuery<>(OverallReport.class, "id = 'gigaspaces.com'"), new ChangeSet().set("topReferralsReport", topReferralsReport));
     }
 }

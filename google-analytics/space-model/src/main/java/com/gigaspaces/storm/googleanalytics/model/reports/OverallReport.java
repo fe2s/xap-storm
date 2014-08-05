@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class OverallReport implements Serializable {
 
     // singleton object in the space
-    private Long id = 1L;
+    private String id = "gigaspaces.com";
     private ActiveUsersReport activeUsersReport;
     private GeoReport geoReport;
     private PageViewTimeSeriesReport pageViewTimeSeriesReport;
@@ -21,11 +21,11 @@ public class OverallReport implements Serializable {
     private TopUrlsReport topUrlsReport;
 
     @SpaceId
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
