@@ -99,6 +99,11 @@ public final class SlidingWindowCounter<T> implements Serializable {
 
     public long[] getOrderedWindowThenAdvance(T obj) {
         long[] slots = objCounter.getSlots().get(obj);
+        if (slots == null) {
+            // may happen if window requested before first object counted
+            return new long[0];
+        }
+
         long[] window = new long[slots.length];
 
         int localHead = slotAfter(headSlot);

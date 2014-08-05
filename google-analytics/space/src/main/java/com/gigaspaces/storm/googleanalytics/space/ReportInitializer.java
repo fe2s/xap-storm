@@ -29,7 +29,6 @@ public class ReportInitializer {
         // clusterInfo is null when running Integrated PU
         int instanceId = clusterInfo == null ? 1 : clusterInfo.getInstanceId();
 
-        // we want to init registry only once
         if (instanceId == 1) {
             log.info("Initializing report object");
             space.getClustered().write(new OverallReport());
