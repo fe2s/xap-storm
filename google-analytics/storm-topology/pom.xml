@@ -34,8 +34,8 @@
             <artifactId>storm-core</artifactId>
             <version>${storm.version}</version>
              <!--keep storm out of the jar-with-dependencies-->
-            <!--<scope>provided</scope>-->
-            <scope>compile</scope>
+            <scope>provided</scope>
+            <!--<scope>compile</scope>-->
         </dependency>
 
 

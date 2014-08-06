@@ -44,7 +44,7 @@ public class GoogleAnalyticsTopology {
             conf.put(ConfigConstants.XAP_SPACE_URL_KEY, "jini://" + gsmLocator + "/*/space");
             StormSubmitter.submitTopologyWithProgressBar(topologyName, conf, stormTopology);
         } else if (args.length == 0) {
-            conf.put(ConfigConstants.XAP_SPACE_URL_KEY, "jini://*/*/space?groups=notitem");
+            conf.put(ConfigConstants.XAP_SPACE_URL_KEY, "jini://*/*/space");
             StormRunner.runTopologyLocally(stormTopology, "topology", conf, 100000);
         } else {
             System.err.println("Unexpected number of parameters. You can run this topology in two modes: \n" +
