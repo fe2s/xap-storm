@@ -3,6 +3,9 @@ package com.gigaspaces.streaming.offset;
 import com.gigaspaces.annotation.pojo.*;
 
 /**
+ * Wrapper around stream element payload.
+ * Items are kept ordered by offset property.
+ *
  * @author Oleksiy_Dyagilev
  */
 @SpaceClass

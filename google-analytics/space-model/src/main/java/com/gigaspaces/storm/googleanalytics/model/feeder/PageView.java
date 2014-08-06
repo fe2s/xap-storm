@@ -7,6 +7,8 @@ import com.gigaspaces.annotation.pojo.SpaceId;
 import java.io.Serializable;
 
 /**
+ * Represents web-site's page view.
+ *
  * @author Mykola_Zalyayev
  */
 @SpaceClass(fifoSupport = FifoSupport.OPERATION)

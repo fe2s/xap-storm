@@ -7,6 +7,9 @@ import com.gigaspaces.annotation.pojo.SpaceIndex;
 import java.io.Serializable;
 
 /**
+ * Global report.
+ * Aggregates different reports in a single object.
+ *
  * @author Mykola_Zalyayev
  */
 @SpaceClass

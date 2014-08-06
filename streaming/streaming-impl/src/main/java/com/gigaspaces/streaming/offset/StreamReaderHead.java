@@ -5,6 +5,8 @@ import com.gigaspaces.annotation.pojo.SpaceId;
 import com.gigaspaces.annotation.pojo.SpaceRouting;
 
 /**
+ * Holds offset of the last read item.
+ *
  * @author Oleksiy_Dyagilev
  */
 @SpaceClass

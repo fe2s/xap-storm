@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.util.LinkedHashMap;
 
 /**
+ * Shows top visited urls for the last N seconds.
+ *
  * @author Oleksiy_Dyagilev
  */
 public class TopUrlsReport implements Serializable {

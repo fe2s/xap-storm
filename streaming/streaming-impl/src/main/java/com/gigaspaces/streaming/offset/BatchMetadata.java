@@ -5,6 +5,9 @@ import com.gigaspaces.annotation.pojo.SpaceId;
 import com.gigaspaces.annotation.pojo.SpaceRouting;
 
 /**
+ * Batch metadata.
+ * Keeps all necessary information to reread the same batch of elements any time later.
+ *
  * @author Oleksiy_Dyagilev
  */
 @SpaceClass

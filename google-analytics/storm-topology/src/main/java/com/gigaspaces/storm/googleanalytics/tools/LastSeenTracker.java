@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
+ * Tracks last seen time for users.
+ *
  * @author Oleksiy_Dyagilev
  */
 public class LastSeenTracker<T> {

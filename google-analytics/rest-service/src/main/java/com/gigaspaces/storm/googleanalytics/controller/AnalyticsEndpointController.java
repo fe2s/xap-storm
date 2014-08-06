@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 /**
+ * Endpoint to send PageView json documents.
+ * Used by 'feeder' app.
+ *
  * @author Mykola_Zalyayev
  */
 @Controller
 @RequestMapping(value = "/rest")
 public class AnalyticsEndpointController {
-
-    @Autowired
-    private GigaSpace space;
 
     @Autowired
     private PageViewService pageViewService;

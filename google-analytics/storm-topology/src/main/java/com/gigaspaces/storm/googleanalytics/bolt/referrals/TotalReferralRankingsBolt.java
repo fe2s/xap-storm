@@ -11,6 +11,9 @@ import com.j_spaces.core.client.SQLQuery;
 import java.util.LinkedHashMap;
 
 /**
+ * Maintains total referrals rankings.
+ * Writes report to XAP.
+ *
  * @author Oleksiy_Dyagilev
  */
 public class TotalReferralRankingsBolt extends TotalRankingsBolt {

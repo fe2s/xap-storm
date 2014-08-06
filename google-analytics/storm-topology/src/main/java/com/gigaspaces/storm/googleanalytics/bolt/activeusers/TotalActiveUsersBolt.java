@@ -20,6 +20,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Maintains a map of [source_task, users_count] and emits the total count for all sources.
+ * Writes report to XAP.
+ *
  * @author Oleksiy_Dyagilev
  */
 public class TotalActiveUsersBolt extends XAPAwareBasicBolt {

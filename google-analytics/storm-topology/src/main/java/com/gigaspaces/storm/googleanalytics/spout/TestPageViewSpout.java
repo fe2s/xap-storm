@@ -10,6 +10,8 @@ import backtype.storm.utils.Utils;
 import java.util.*;
 
 /**
+ * Page views mock spout. Used for test topology without XAP.
+ *
  * @author Oleksiy_Dyagilev
  */
 public class TestPageViewSpout extends BaseRichSpout {

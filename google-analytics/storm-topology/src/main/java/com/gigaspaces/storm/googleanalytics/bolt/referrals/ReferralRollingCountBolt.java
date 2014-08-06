@@ -4,6 +4,8 @@ import backtype.storm.tuple.Tuple;
 import com.gigaspaces.storm.googleanalytics.bolt.generic.RollingCountBolt;
 
 /**
+ * Rolling count for referrals.
+ *
  * @author Oleksiy_Dyagilev
  */
 public class ReferralRollingCountBolt extends RollingCountBolt<String> {

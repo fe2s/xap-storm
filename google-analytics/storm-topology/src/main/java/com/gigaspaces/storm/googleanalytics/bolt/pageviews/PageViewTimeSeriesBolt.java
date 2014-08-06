@@ -19,6 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Sliding window counter for page views.
+ * Writes report to XAP.
+ *
  * @author Oleksiy_Dyagilev
  */
 public class PageViewTimeSeriesBolt extends XAPAwareBasicBolt {

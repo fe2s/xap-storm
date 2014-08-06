@@ -9,6 +9,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * Spout of page views.
+ * Streams page views from XAP.
+ *
  * @author Oleksiy_Dyagilev
  */
 public class PageViewSpout extends XAPSimpleSpout<PageView> {

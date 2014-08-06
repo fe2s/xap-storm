@@ -10,6 +10,7 @@ import com.gigaspaces.storm.tools.GigaSpaceFactory;
 import com.gigaspaces.streaming.simple.SimpleStream;
 import org.openspaces.core.GigaSpace;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,7 @@ import java.util.Map;
 /**
  * @author Oleksiy_Dyagilev
  */
-public class XAPSimpleSpout<T> extends BaseRichSpout {
+public class XAPSimpleSpout<T extends Serializable> extends BaseRichSpout {
 
     protected int defaultXapStreamBatchSize = 300;
 

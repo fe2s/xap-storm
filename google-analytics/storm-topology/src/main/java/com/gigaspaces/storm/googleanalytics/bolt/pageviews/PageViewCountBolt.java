@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Counts page views.
+ *
  * @author Oleksiy_Dyagilev
  */
 public class PageViewCountBolt extends BaseBasicBolt {

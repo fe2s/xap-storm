@@ -14,6 +14,9 @@ import java.util.Arrays;
 import java.util.Map;
 
 /**
+ * Rolling count for countries.
+ * Writes report to XAP.
+ *
  * @author Oleksiy_Dyagilev
  */
 public class CountryRollingCountBolt extends RollingCountBolt<String> {

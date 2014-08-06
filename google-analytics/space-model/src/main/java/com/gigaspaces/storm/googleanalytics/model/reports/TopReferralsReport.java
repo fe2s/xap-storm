@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.util.LinkedHashMap;
 
 /**
+ * Shows top referrals for the last N seconds.
+ *
  * @author Oleksiy_Dyagilev
  */
 public class TopReferralsReport implements Serializable {

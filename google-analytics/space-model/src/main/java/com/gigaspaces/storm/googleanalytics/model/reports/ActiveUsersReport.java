@@ -8,6 +8,8 @@ import org.openspaces.remoting.Routing;
 import java.io.Serializable;
 
 /**
+ * Shows how many people on the site right now.
+ *
  * @author Oleksiy_Dyagilev
  */
 public class ActiveUsersReport implements Serializable {

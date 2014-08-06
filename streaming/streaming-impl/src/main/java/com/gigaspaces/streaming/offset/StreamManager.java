@@ -15,6 +15,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * Stream manager
+ *
  * @author Oleksiy_Dyagilev
  */
 @Component

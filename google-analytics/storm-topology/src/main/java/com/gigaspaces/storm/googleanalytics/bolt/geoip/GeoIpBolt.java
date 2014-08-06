@@ -10,6 +10,8 @@ import com.gigaspaces.storm.googleanalytics.tools.GeoIpLookupService;
 import java.util.Arrays;
 
 /**
+ * Converts IP address to country
+ *
  * @author Oleksiy_Dyagilev
  */
 public class GeoIpBolt extends BaseBasicBolt {

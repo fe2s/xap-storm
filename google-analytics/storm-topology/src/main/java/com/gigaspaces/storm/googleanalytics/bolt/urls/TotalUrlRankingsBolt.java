@@ -11,6 +11,9 @@ import com.j_spaces.core.client.SQLQuery;
 import java.util.LinkedHashMap;
 
 /**
+ * Maintains total url rankings.
+ * Writes report to XAP.
+ *
  * @author Oleksiy_Dyagilev
  */
 public class TotalUrlRankingsBolt extends TotalRankingsBolt {

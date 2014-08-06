@@ -13,6 +13,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
+ * Endpoint to retrieve analytic reports.
+ * Called from browser (AJAX).
+ *
  * @author Mykola_Zalyayev
  */
 @Controller

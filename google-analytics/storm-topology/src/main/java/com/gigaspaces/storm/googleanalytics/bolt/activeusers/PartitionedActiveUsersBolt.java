@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 /**
+ * Keeps track of user last seen time and emits number of active users for this partition.
+ *
  * @author Oleksiy_Dyagilev
  */
 public class PartitionedActiveUsersBolt extends BaseBasicBolt {

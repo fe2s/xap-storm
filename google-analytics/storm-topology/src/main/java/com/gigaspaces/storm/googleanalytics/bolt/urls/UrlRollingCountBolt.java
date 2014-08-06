@@ -4,6 +4,8 @@ import backtype.storm.tuple.Tuple;
 import com.gigaspaces.storm.googleanalytics.bolt.generic.RollingCountBolt;
 
 /**
+ * Rolling count for urls.
+ *
  * @author Oleksiy_Dyagilev
  */
 public class UrlRollingCountBolt extends RollingCountBolt<String> {

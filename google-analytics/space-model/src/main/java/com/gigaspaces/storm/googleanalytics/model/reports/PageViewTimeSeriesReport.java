@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 /**
+ * Displays the dynamic of visited pages for last N seconds.
+ *
  * @author Oleksiy_Dyagilev
  */
 public class PageViewTimeSeriesReport implements Serializable {

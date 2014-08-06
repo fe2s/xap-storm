@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
+ * Remote service implementation.
+ *
  * @author Oleksiy_Dyagilev
  */
 @RemotingService

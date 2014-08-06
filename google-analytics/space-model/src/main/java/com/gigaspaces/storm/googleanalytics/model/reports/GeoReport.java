@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
+ * Shows users distribution across countries.
+ *
  * @author Oleksiy_Dyagilev
  */
 public class GeoReport implements Serializable {

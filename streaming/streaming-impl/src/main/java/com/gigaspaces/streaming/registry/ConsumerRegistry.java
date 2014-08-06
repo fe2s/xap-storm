@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Holds the last allocated routing key for stream.
+ *
  * @author Oleksiy_Dyagilev
  */
 @SpaceClass
@@ -15,19 +17,25 @@ public class ConsumerRegistry {
     // singleton in the space
     private Long id = 1L;
     private Integer numberOfPartitions;
-    private Map<String, Integer> lastAllocatedRoutingKeyByStreamName = new HashMap<>();
+    private Map<String, Integer> lastAllocatedRoutingKeyByStreamId = new HashMap<>();
 
     public ConsumerRegistry() {
     }
 
-    public int registerConsumer(String streamName) {
-        Integer lastAllocatedRouting = lastAllocatedRoutingKeyByStreamName.get(streamName);
+    /**
+     * Allocates routing key for stream consumers.
+     *
+     * @param streamId stream id
+     * @return allocated routing key
+     */
+    public int registerConsumer(String streamId) {
+        Integer lastAllocatedRouting = lastAllocatedRoutingKeyByStreamId.get(streamId);
         if (lastAllocatedRouting == null) {
             lastAllocatedRouting = 0;
         } else {
             lastAllocatedRouting = (lastAllocatedRouting + 1) % numberOfPartitions;
         }
-        lastAllocatedRoutingKeyByStreamName.put(streamName, lastAllocatedRouting);
+        lastAllocatedRoutingKeyByStreamId.put(streamId, lastAllocatedRouting);
 
         return lastAllocatedRouting;
     }
@@ -49,11 +57,11 @@ public class ConsumerRegistry {
         this.numberOfPartitions = numberOfPartitions;
     }
 
-    public Map<String, Integer> getLastAllocatedRoutingKeyByStreamName() {
-        return lastAllocatedRoutingKeyByStreamName;
+    public Map<String, Integer> getLastAllocatedRoutingKeyByStreamId() {
+        return lastAllocatedRoutingKeyByStreamId;
     }
 
-    public void setLastAllocatedRoutingKeyByStreamName(Map<String, Integer> lastAllocatedRoutingKeyByStreamName) {
-        this.lastAllocatedRoutingKeyByStreamName = lastAllocatedRoutingKeyByStreamName;
+    public void setLastAllocatedRoutingKeyByStreamId(Map<String, Integer> lastAllocatedRoutingKeyByStreamId) {
+        this.lastAllocatedRoutingKeyByStreamId = lastAllocatedRoutingKeyByStreamId;
     }
 }

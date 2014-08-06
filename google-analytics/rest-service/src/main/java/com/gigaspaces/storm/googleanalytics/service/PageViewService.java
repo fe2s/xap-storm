@@ -7,24 +7,28 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
  * @author Oleksiy_Dyagilev
  */
 @Service
-public class PageViewService implements InitializingBean {
+public class PageViewService {
 
     @Autowired
     private GigaSpace space;
 
     private SimpleStream<PageView> stream;
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
+    @PostConstruct
+    public void init() throws Exception {
         stream = new SimpleStream<>(space, new PageView());
     }
 
+    /**
+     * sends page views to the stream
+     */
     public void track(List<PageView> pageViewList) {
         stream.writeBatch(pageViewList);
     }

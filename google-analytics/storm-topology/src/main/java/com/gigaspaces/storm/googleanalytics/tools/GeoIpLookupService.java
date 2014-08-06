@@ -9,6 +9,8 @@ import java.net.URL;
 import java.nio.file.Files;
 
 /**
+ * Converts IP address to country.
+ *
  * @author Oleksiy_Dyagilev
  */
 public class GeoIpLookupService {
