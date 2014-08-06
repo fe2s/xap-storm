@@ -2,6 +2,7 @@ package com.gigaspaces.streaming.registry;
 
 import com.gigaspaces.annotation.pojo.SpaceClass;
 import com.gigaspaces.annotation.pojo.SpaceId;
+import com.gigaspaces.annotation.pojo.SpaceRouting;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,39 +15,35 @@ import java.util.Map;
 @SpaceClass
 public class ConsumerRegistry {
 
-    // singleton in the space
-    private Long id = 1L;
+    private String streamId;
     private Integer numberOfPartitions;
-    private Map<String, Integer> lastAllocatedRoutingKeyByStreamId = new HashMap<>();
+    private Integer lastAllocatedRoutingKey = -1;
 
     public ConsumerRegistry() {
+    }
+
+    public ConsumerRegistry(String streamId) {
+        this.streamId = streamId;
     }
 
     /**
      * Allocates routing key for stream consumers.
      *
-     * @param streamId stream id
      * @return allocated routing key
      */
-    public int registerConsumer(String streamId) {
-        Integer lastAllocatedRouting = lastAllocatedRoutingKeyByStreamId.get(streamId);
-        if (lastAllocatedRouting == null) {
-            lastAllocatedRouting = 0;
-        } else {
-            lastAllocatedRouting = (lastAllocatedRouting + 1) % numberOfPartitions;
-        }
-        lastAllocatedRoutingKeyByStreamId.put(streamId, lastAllocatedRouting);
-
-        return lastAllocatedRouting;
+    public int registerConsumer() {
+        lastAllocatedRoutingKey = (lastAllocatedRoutingKey + 1) % numberOfPartitions;
+        return lastAllocatedRoutingKey;
     }
 
     @SpaceId
-    public Long getId() {
-        return id;
+    @SpaceRouting
+    public String getStreamId() {
+        return streamId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setStreamId(String streamId) {
+        this.streamId = streamId;
     }
 
     public Integer getNumberOfPartitions() {
@@ -57,11 +54,11 @@ public class ConsumerRegistry {
         this.numberOfPartitions = numberOfPartitions;
     }
 
-    public Map<String, Integer> getLastAllocatedRoutingKeyByStreamId() {
-        return lastAllocatedRoutingKeyByStreamId;
+    public Integer getLastAllocatedRoutingKey() {
+        return lastAllocatedRoutingKey;
     }
 
-    public void setLastAllocatedRoutingKeyByStreamId(Map<String, Integer> lastAllocatedRoutingKeyByStreamId) {
-        this.lastAllocatedRoutingKeyByStreamId = lastAllocatedRoutingKeyByStreamId;
+    public void setLastAllocatedRoutingKey(Integer lastAllocatedRoutingKey) {
+        this.lastAllocatedRoutingKey = lastAllocatedRoutingKey;
     }
 }

@@ -1,5 +1,7 @@
 package com.gigaspaces.streaming.registry;
 
+import org.openspaces.remoting.Routing;
+
 /**
  * Registers stream consumers.
  *
@@ -13,6 +15,6 @@ public interface ConsumerRegistryService {
      * @param streamId stream id
      * @return routing key allocated for consumer
      */
-    int registerConsumer(String streamId);
+    int registerConsumer(@Routing String streamId);
 
 }
