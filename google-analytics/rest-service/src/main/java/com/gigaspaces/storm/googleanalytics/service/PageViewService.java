@@ -1,6 +1,7 @@
 package com.gigaspaces.storm.googleanalytics.service;
 
 import com.gigaspaces.storm.googleanalytics.model.feeder.PageView;
+import com.gigaspaces.storm.googleanalytics.model.reports.OverallReport;
 import com.gigaspaces.streaming.simple.SimpleStream;
 import org.openspaces.core.GigaSpace;
 import org.springframework.beans.factory.InitializingBean;
@@ -33,4 +34,9 @@ public class PageViewService {
         stream.writeBatch(pageViewList);
     }
 
+    public void registerSite(String siteId) {
+        OverallReport report = new OverallReport();
+        report.setSiteId(siteId);
+        space.write(report);
+    }
 }

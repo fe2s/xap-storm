@@ -33,6 +33,6 @@ public class TotalUrlRankingsBolt extends TotalRankingsBolt {
 
         TopUrlsReport topUrlsReport = new TopUrlsReport(topReferrals);
 
-        space.change(new SQLQuery<>(OverallReport.class, "id = 'gigaspaces.com'"), new ChangeSet().set("topUrlsReport", topUrlsReport));
+        space.change(new SQLQuery<>(OverallReport.class, "siteId = 'gigaspaces.com'"), new ChangeSet().set("topUrlsReport", topUrlsReport));
     }
 }

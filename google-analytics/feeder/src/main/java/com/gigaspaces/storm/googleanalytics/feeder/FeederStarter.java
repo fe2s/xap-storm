@@ -3,6 +3,7 @@ package com.gigaspaces.storm.googleanalytics.feeder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -25,7 +26,13 @@ public class FeederStarter {
 
 
 
-    public void start(String host) {
+    public void start(String host, String siteId) {
+        try {
+            sender.sendCreateSiteRequest(siteId, host);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(5);
         FeederTask feederTask = new FeederTask(host);
 
@@ -46,8 +53,7 @@ public class FeederStarter {
             try {
                 int nextCount = countHelper.nextCount();
                 sender.sendRequest(feeder.nextRequestsList(nextCount), host);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception ignored) {
             }
         }
     }

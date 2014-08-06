@@ -6,10 +6,7 @@ import com.gigaspaces.storm.googleanalytics.service.PageViewService;
 import org.openspaces.core.GigaSpace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +22,12 @@ public class AnalyticsEndpointController {
 
     @Autowired
     private PageViewService pageViewService;
+
+    @RequestMapping(value = "/register", method = RequestMethod.PUT)
+    @ResponseBody
+    public void registerSite(@RequestBody String siteId){
+        pageViewService.registerSite(siteId);
+    }
 
     @RequestMapping(value = "/trackPageViewList", method = RequestMethod.POST)
     @ResponseBody

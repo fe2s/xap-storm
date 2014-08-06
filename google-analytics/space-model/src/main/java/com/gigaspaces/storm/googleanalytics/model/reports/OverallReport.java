@@ -15,7 +15,7 @@ import java.io.Serializable;
 @SpaceClass
 public class OverallReport implements Serializable {
 
-    private String id;
+    private String siteId;
     private ActiveUsersReport activeUsersReport;
     private GeoReport geoReport;
     private PageViewTimeSeriesReport pageViewTimeSeriesReport;
@@ -23,12 +23,12 @@ public class OverallReport implements Serializable {
     private TopUrlsReport topUrlsReport;
 
     @SpaceId
-    public String getId() {
-        return id;
+    public String getSiteId() {
+        return siteId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setSiteId(String siteId) {
+        this.siteId = siteId;
     }
 
     @SpaceIndex

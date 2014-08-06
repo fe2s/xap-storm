@@ -65,7 +65,7 @@ public class TotalActiveUsersBolt extends XAPAwareBasicBolt {
         log.debug("Total number of active users " + totalActiveUsers);
         collector.emit(Arrays.<Object>asList(totalActiveUsers));
 
-        space.change(new SQLQuery<>(OverallReport.class, "id = 'gigaspaces.com'"), new ChangeSet().set("activeUsersReport", new ActiveUsersReport(totalActiveUsers)));
+        space.change(new SQLQuery<>(OverallReport.class, "siteId = 'gigaspaces.com'"), new ChangeSet().set("activeUsersReport", new ActiveUsersReport(totalActiveUsers)));
     }
 
     @Override

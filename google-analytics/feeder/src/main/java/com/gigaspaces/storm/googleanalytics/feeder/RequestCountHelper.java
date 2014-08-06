@@ -20,7 +20,7 @@ public class RequestCountHelper {
     private State currentState;
 
     public RequestCountHelper() {
-        batchSize = 0;
+        batchSize = 1;
         loadIncreaseInterval = System.currentTimeMillis();
         lastLoadIncreaseTime = nextInterval();
         currentState = State.NORMAL;

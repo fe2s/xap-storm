@@ -25,7 +25,6 @@
     <os-events:annotation-support/>
 
     <context:component-scan base-package="com.gigaspaces.streaming"/>
-    <context:component-scan base-package="com.gigaspaces.storm.googleanalytics.space"/>
 
     <!--
     Defines a distributed transaction manager.

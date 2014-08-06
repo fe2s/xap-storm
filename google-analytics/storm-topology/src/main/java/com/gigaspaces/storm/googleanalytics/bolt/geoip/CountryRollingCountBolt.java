@@ -35,7 +35,7 @@ public class CountryRollingCountBolt extends RollingCountBolt<String> {
         GeoReport geoReport = new GeoReport();
         geoReport.setCountryCountMap(counts);
 
-        space.change(new SQLQuery<>(OverallReport.class, "id = 'gigaspaces.com'"), new ChangeSet().set("geoReport", geoReport));
+        space.change(new SQLQuery<>(OverallReport.class, "siteId = 'gigaspaces.com'"), new ChangeSet().set("geoReport", geoReport));
 
     }
 
