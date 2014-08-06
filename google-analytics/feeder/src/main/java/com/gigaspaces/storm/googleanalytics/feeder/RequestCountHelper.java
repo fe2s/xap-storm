@@ -12,7 +12,7 @@ public class RequestCountHelper {
 
     private static final int NORMAL_COUNT = 200;
     private static final int MIN_COUNT = 20;
-    private static final int MAX_COUNT = 1000;
+    private static final int MAX_COUNT = 500;
 
     private int batchSize;
     private long loadIncreaseInterval;
@@ -20,7 +20,7 @@ public class RequestCountHelper {
     private State currentState;
 
     public RequestCountHelper() {
-        batchSize = NORMAL_COUNT;
+        batchSize = 0;
         loadIncreaseInterval = System.currentTimeMillis();
         lastLoadIncreaseTime = nextInterval();
         currentState = State.NORMAL;

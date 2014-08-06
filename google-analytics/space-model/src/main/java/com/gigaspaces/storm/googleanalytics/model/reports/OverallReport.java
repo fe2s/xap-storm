@@ -12,8 +12,7 @@ import java.io.Serializable;
 @SpaceClass
 public class OverallReport implements Serializable {
 
-    // singleton object in the space
-    private String id = "gigaspaces.com";
+    private String id;
     private ActiveUsersReport activeUsersReport;
     private GeoReport geoReport;
     private PageViewTimeSeriesReport pageViewTimeSeriesReport;

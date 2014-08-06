@@ -29,9 +29,11 @@ public class ReportInitializer {
         // clusterInfo is null when running Integrated PU
         int instanceId = clusterInfo == null ? 1 : clusterInfo.getInstanceId();
 
-        if (instanceId == 1) {
+        if (instanceId == 2) {
             log.info("Initializing report object");
-            space.getClustered().write(new OverallReport());
+            OverallReport overallReport = new OverallReport();
+            overallReport.setId("gigaspaces.com");
+            space.getClustered().write(overallReport);
         }
     }
 }
