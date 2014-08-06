@@ -11,16 +11,15 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class Main {
 
     public static void main(String[] args) {
-        if(args.length<2){
-            throw new IllegalArgumentException("Unable to find host and siteId parameters");
+        if(args.length<1){
+            throw new IllegalArgumentException("Unable to find host parameter");
         }
         ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 
         FeederStarter starter = context.getBean(FeederStarter.class);
 
         String host = args[0];
-        String siteId = args[1];
-        starter.start(host, siteId);
+        starter.start(host, "gigaspaces.com");
 
     }
 }

@@ -109,7 +109,7 @@
 
 
     <build>
-        <finalName>rest-service</finalName>
+        <finalName>web</finalName>
     </build>
 
 </project>
