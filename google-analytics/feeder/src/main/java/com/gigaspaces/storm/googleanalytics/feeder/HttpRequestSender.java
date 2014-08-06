@@ -34,7 +34,7 @@ public class HttpRequestSender {
     public void sendRequest(List<PageView> feederRequest, String host) throws Exception {
 
         String jsonValue = mapper.writeValueAsString(feederRequest);
-        String url = host + "/rest-service/rest/trackPageViewList";
+        String url = host + "/web/rest/trackPageViewList";
 
         HttpClient client = new DefaultHttpClient();
 
@@ -50,7 +50,7 @@ public class HttpRequestSender {
 
         HttpClient client = new DefaultHttpClient();
 
-        HttpPut request = new HttpPut(host + "/rest-service/rest/register/");
+        HttpPut request = new HttpPut(host + "/web/rest/register/");
         StringEntity params = new StringEntity(siteId);
         request.addHeader("content-type", "application/json");
         request.setEntity(params);
