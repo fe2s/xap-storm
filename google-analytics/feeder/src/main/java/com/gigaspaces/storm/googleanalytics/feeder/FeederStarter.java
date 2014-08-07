@@ -26,15 +26,17 @@ public class FeederStarter {
 
 
 
-    public void start(String host, String siteId) {
+    public void start(String xapLookupLocator, String siteId) {
+        String restHostPort = RestServiceLocator.findRestServiceAddress(xapLookupLocator);
+
         try {
-            sender.sendCreateSiteRequest(siteId, host);
+            sender.sendCreateSiteRequest(siteId, restHostPort);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(5);
-        FeederTask feederTask = new FeederTask(host);
+        FeederTask feederTask = new FeederTask(restHostPort);
 
         long defaultDelay = (long) (Math.random() * 100-90)+90;
         ScheduledFuture<?> sf = executorService.scheduleAtFixedRate(feederTask, defaultDelay, defaultDelay, TimeUnit.MILLISECONDS);

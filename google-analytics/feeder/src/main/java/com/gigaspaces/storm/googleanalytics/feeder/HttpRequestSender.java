@@ -46,11 +46,11 @@ public class HttpRequestSender {
         HttpResponse response = client.execute(request);
     }
 
-    public void sendCreateSiteRequest(String siteId, String host) throws IOException {
+    public void sendCreateSiteRequest(String siteId, String hostPort) throws IOException {
 
         HttpClient client = new DefaultHttpClient();
 
-        HttpPut request = new HttpPut(host + "/web/rest/register/");
+        HttpPut request = new HttpPut(hostPort + "/web/rest/register/");
         StringEntity params = new StringEntity(siteId);
         request.addHeader("content-type", "application/json");
         request.setEntity(params);
