@@ -7,3 +7,5 @@ This pattern integrates XAP with Storm. XAP is used as stream data source and fa
 As part of this integration we provide classic Word Counter and Twitter Reach implementations on top of XAP and Trident.
 
 Also, we demonstrate how to build highly available, scalable equivalent of Realtime Google Analytics application with XAP and Storm. Application can be deployed to cloud with one click using Cloudify. 
+
+![alt tag](https://github.com/fe2s/xap-storm/blob/master/docs/images/storm-screen-with-browser.png)
