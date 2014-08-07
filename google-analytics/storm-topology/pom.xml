@@ -33,7 +33,7 @@
             <groupId>org.apache.storm</groupId>
             <artifactId>storm-core</artifactId>
             <version>${storm.version}</version>
-             <!--keep storm out of the jar-with-dependencies-->
+             <!--keep storm out of the jar-with-dependencies. Change to compile if want to run in embedded Storm -->
             <scope>provided</scope>
             <!--<scope>compile</scope>-->
         </dependency>
