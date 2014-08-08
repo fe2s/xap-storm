@@ -44,7 +44,7 @@ if(maxpermachine==null||maxpermachine.toInteger()<=0)maxpermachine="0"
 //DEPLOY
 println "DEPLOYING GRID"
 // find gsm
-lookuplocators = context.attributes.thisInstance["xaplookuplocators"]
+lookuplocators = context.attributes.thisApplication["xaplookuplocators"]
 println "Using LOOKUPLOCATORS: ${lookuplocators}"
 
 admin=new AdminFactory().useDaemonThreads(true).addLocators("${lookuplocators}").createAdmin();

@@ -42,7 +42,7 @@ assert mgmt_service!=null
 
 
 // find gsm
-lookuplocators = context.attributes.thisInstance["xaplookuplocators"]
+lookuplocators = context.attributes.thisApplication["xaplookuplocators"]
 admin=new AdminFactory().useDaemonThreads(true).addLocators("${lookuplocators}").createAdmin();
 gsm=admin.gridServiceManagers.waitForAtLeastOne(1,TimeUnit.MINUTES)
 assert gsm!=null

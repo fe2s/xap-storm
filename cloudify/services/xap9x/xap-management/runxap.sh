@@ -1,3 +1,4 @@
+#!/bin/sh
 # These are essentials for cleaning the environment of Cloudify
 CLASSPATH=
 bootclasspath=
