@@ -54,7 +54,7 @@ public class SqlQueryReadOnlyStateTest {
     private StormTopology buildTopology(LocalDRPC drpc) {
         TridentTopology topology = new TridentTopology();
 
-        SQLQuery<Person> sqlQuery = new SQLQuery<>(Person.class, "name = ? AND age > 30").setProjections("age");
+        SQLQuery<Person> sqlQuery = new SQLQuery<Person>(Person.class, "name = ? AND age > 30").setProjections("age");
         TridentState peopleOlderThan30ByName = topology.newStaticState(XAPReadOnlyStateFactory.bySqlQuery(sqlQuery));
 
         topology.newDRPCStream("age", drpc)

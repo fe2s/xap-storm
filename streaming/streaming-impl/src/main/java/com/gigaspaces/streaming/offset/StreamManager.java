@@ -28,7 +28,7 @@ public class StreamManager {
     private ClusterInfo clusterInfo;
     private int clusterInstanceId;
 
-    private Map<String, PartitionedStream> streamsById = new ConcurrentHashMap<>();
+    private Map<String, PartitionedStream> streamsById = new ConcurrentHashMap<String, PartitionedStream>();
 
     @PostConstruct
     public void initClusterInstanceId(){
@@ -59,7 +59,7 @@ public class StreamManager {
         StreamWriterHead writerHead = findStreamWriterHead(streamId);
 
         int routing = clusterInstanceId - 1;
-        stream = new PartitionedStream<>(streamId, writerHead, space, routing);
+        stream = new PartitionedStream(streamId, writerHead, space, routing);
 
         streamsById.put(streamId, stream);
 
@@ -67,7 +67,7 @@ public class StreamManager {
     }
 
     private StreamWriterHead findStreamWriterHead(String streamId) {
-        SQLQuery<Item> query = new SQLQuery<>(Item.class, "streamId=?");
+        SQLQuery<Item> query = new SQLQuery<Item>(Item.class, "streamId=?");
         query.setParameters(streamId);
         Long maxOffset = max(space, query, "offset");
         if (maxOffset == null) {

@@ -43,7 +43,7 @@ public class XAPTransactionalTridentSpout<T> implements ITridentSpout<String> {
         log.trace("getEmitter txStateId " + txStateId);
         GigaSpace gigaSpace = getGigaSpace(conf);
 
-        return new com.gigaspaces.storm.trident.spout.Emitter<>(streamId, gigaSpace, batchSize, tupleConverter);
+        return new com.gigaspaces.storm.trident.spout.Emitter<T>(streamId, gigaSpace, batchSize, tupleConverter);
     }
 
     private GigaSpace getGigaSpace(Map conf) {

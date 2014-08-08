@@ -64,13 +64,13 @@ public class Emitter<T> implements ITridentSpout.Emitter<String> {
     }
 
     private void registerStreamConsumer() {
-        ConsumerRegistryService registryService = new ExecutorRemotingProxyConfigurer<>(gigaSpace, ConsumerRegistryService.class).proxy();
+        ConsumerRegistryService registryService = new ExecutorRemotingProxyConfigurer<ConsumerRegistryService>(gigaSpace, ConsumerRegistryService.class).proxy();
         this.routingKey = registryService.registerConsumer(streamId);
         log.info(String.format("Registered emitter for stream %s, routingKey %d", streamId, routingKey));
     }
 
     @SuppressWarnings("unchecked")
     private void initStreamService(){
-        streamService = new ExecutorRemotingProxyConfigurer<>(gigaSpace, PartitionedStreamService.class).proxy();
+        streamService = new ExecutorRemotingProxyConfigurer<PartitionedStreamService>(gigaSpace, PartitionedStreamService.class).proxy();
     }
 }

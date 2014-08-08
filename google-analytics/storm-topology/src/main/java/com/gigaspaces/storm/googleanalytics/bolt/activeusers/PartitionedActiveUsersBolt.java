@@ -34,7 +34,7 @@ public class PartitionedActiveUsersBolt extends BaseBasicBolt {
 
     @Override
     public void prepare(Map stormConf, TopologyContext context) {
-        lastSeenUsersTracker = new LastSeenTracker<>();
+        lastSeenUsersTracker = new LastSeenTracker<String>();
     }
 
     @Override

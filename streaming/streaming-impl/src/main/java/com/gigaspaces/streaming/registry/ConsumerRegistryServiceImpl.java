@@ -47,7 +47,7 @@ public class ConsumerRegistryServiceImpl implements ConsumerRegistryService {
     }
 
     private ConsumerRegistry findRegistryWithLock(String streamId) {
-        IdQuery<ConsumerRegistry> query = new IdQuery<>(ConsumerRegistry.class, streamId);
+        IdQuery<ConsumerRegistry> query = new IdQuery<ConsumerRegistry>(ConsumerRegistry.class, streamId);
         return space.readById(query, 1000, ReadModifiers.EXCLUSIVE_READ_LOCK);
     }
 

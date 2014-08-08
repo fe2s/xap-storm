@@ -16,7 +16,7 @@ public class LastSeenTracker<T> {
 
     private static Logger log = LoggerFactory.getLogger(LastSeenTracker.class);
 
-    private Map<T, Long> lastSeenMap = new HashMap<>();
+    private Map<T, Long> lastSeenMap = new HashMap<T, Long>();
 
     public void track(T obj) {
         lastSeenMap.put(obj, currentTime());

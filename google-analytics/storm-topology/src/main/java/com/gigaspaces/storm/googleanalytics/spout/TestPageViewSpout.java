@@ -38,9 +38,9 @@ public class TestPageViewSpout extends BaseRichSpout {
         put("SESSION4", 1);
     }};
 
-    private static final List<String> urls = new ArrayList<>();
-    private static final List<String> referrals = new ArrayList<>();
-    private static final List<String> sessions = new ArrayList<>();
+    private static final List<String> urls = new ArrayList<String>();
+    private static final List<String> referrals = new ArrayList<String>();
+    private static final List<String> sessions = new ArrayList<String>();
 
 
     private SpoutOutputCollector collector;

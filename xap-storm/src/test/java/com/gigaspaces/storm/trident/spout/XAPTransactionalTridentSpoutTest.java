@@ -87,7 +87,7 @@ public class XAPTransactionalTridentSpoutTest {
         streamWriterThread.start();
         streamWriterThread.join();
 
-        XAPTransactionalTridentSpout<Sentence> spout = new XAPTransactionalTridentSpout<>(new SentenceConverter(), "sentenceStream", 10);
+        XAPTransactionalTridentSpout<Sentence> spout = new XAPTransactionalTridentSpout<Sentence>(new SentenceConverter(), "sentenceStream", 10);
 
 
         TridentTopology topology = new TridentTopology();
@@ -128,7 +128,7 @@ class StreamWriter implements Runnable {
                 new Sentence("to be or not to be the person")
         };
 
-        PartitionedStreamService<Sentence> streamService = new ExecutorRemotingProxyConfigurer<>(space, PartitionedStreamService.class).proxy();
+        PartitionedStreamService<Sentence> streamService = new ExecutorRemotingProxyConfigurer<PartitionedStreamService>(space, PartitionedStreamService.class).proxy();
         for (Sentence sentence : sentences) {
             streamService.write(1, "sentenceStream", sentence);
         }
