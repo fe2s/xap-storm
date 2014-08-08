@@ -15,14 +15,26 @@
 *******************************************************************************/
 application {
 	name="storm-demo"
-	
-	service {
-		name = "zookeeper"		
-	}
+
+    service {
+        name = "xap-management"
+
+    }
+
+    service {
+        name = "xap-container"
+
+    }
+
+    service {
+		name = "zookeeper"
+        dependsOn = ["xap-container"]
+    }
 	
 	service {
 		name = "storm-nimbus"
-		dependsOn = ["zookeeper"]		
+		dependsOn = ["zookeeper"]
+
 	}
 
 	service {
@@ -30,18 +42,5 @@ application {
 		dependsOn = ["storm-nimbus"]
 	}
 
-	service {
-		name = "xap-management"
-	}
-
-	service {
-		name = "xap-container"
-		dependsOn = ["xap-management"]
-	}
-
-	service {
-		name = "apacheLB"
-		dependsOn = ["xap-container"]
-	}
 
 }

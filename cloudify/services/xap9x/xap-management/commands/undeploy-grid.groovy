@@ -34,7 +34,7 @@ assert (name!=null),"name must not be null"
 //UNDEPLOY
 
 // find gsm
-lookuplocators = context.attributes.thisInstance["xaplookuplocators"]
+lookuplocators = context.attributes.thisApplication["xaplookuplocators"]
 admin=new AdminFactory().useDaemonThreads(true).addLocators("${lookuplocators}").createAdmin();
 gsm=admin.gridServiceManagers.waitForAtLeastOne(10,TimeUnit.SECONDS)
 assert gsm!=null

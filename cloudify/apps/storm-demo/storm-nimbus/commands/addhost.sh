@@ -1,3 +1,4 @@
+#!/bin/sh
 grep -q $1 /etc/hosts
 if [ $? -eq 0 ]; then
 	exit 0

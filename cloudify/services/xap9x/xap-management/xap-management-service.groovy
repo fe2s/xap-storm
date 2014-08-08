@@ -60,7 +60,8 @@ service {
 
 		start "xap_start.groovy"
 
-
+		postStart "xap_postStart.groovy"
+		
 	        startDetectionTimeoutSecs 180
         	startDetection {
             		ServiceUtils.isPortOccupied(webui_Port)

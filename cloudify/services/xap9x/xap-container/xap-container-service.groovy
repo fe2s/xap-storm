@@ -23,8 +23,8 @@ service {
 	type "APP_SERVER"
 	icon "xap.png"
 	//elastic false
-	numInstances 1
-	minAllowedInstances 1
+	numInstances 2
+	minAllowedInstances 2
 	maxAllowedInstances 3
 
 
@@ -48,7 +48,7 @@ service {
 
 		start "xap_start.groovy"
 
-        postStart "xap_postStart.groovy"
+    //    postStart "xap_postStart.groovy"
 
         preStop "xap_preStop.groovy"
 
