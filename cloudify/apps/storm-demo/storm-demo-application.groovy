@@ -28,7 +28,7 @@ application {
 
     service {
 		name = "zookeeper"
-        dependsOn = ["xap-container"]
+
     }
 	
 	service {

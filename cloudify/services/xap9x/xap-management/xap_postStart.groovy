@@ -15,25 +15,21 @@ def look = context.attributes.thisApplication["xaplookuplocators"]
 println "${look}"
 
 
-///
-/// FIND xap-container NODES
-///
-def service = null
 
-while (service == null)
-{
-    println "Locating xap-container service...";
-    service = context.waitForService("xap-container", 400, TimeUnit.SECONDS)
-}
-def xaps = null;
-def rowCount=0;
-while(xaps==null)
-{
-    println "Locating xap-container service instances. Expecting " + service.getNumberOfPlannedInstances();
-    xaps = service.waitForInstances(service.getNumberOfPlannedInstances(), 400, TimeUnit.SECONDS )
+/// waiting xap-container NODES
+
+    println "Waiting for xap-container service..."
+def statsService = context.waitForService(config.containerServiceName, 900, TimeUnit.SECONDS)
+if (statsService == null) {
+    throw new IllegalStateException("stats service not found.");
+
 }
 
-println "Found ${xaps.length} xap-container nodes"
+statsHostInstances = statsService.waitForInstances(statsService.numberOfPlannedInstances, 900, TimeUnit.SECONDS)
+
+if (statsHostInstances == null) {
+    throw new IllegalStateException("Stats service instances are not ready");
+}
 
 // Start space creation
 
@@ -52,18 +48,14 @@ println 'end of deploy space'
 
 println 'Start of deploy rest'
 
-///
-/// FIND storm-nimbus NODES
-///
- service = null
 
-while (service == null)
-{
-    println "Locating storm-nimbus service...";
-    service = context.waitForService("storm-nimbus", 240, TimeUnit.SECONDS)
-}
+/// waiting storm-nimbus NODES
 
-
+println "Waiting for nimbus service..."
+def nimbService = context.waitForService("storm-nimbus", 1500, TimeUnit.SECONDS)
+        if (nimbService == null) {
+    throw new IllegalStateException("stats service not found.");
+        }
 // Start rest service depl.
 
 builder = new AntBuilder()
@@ -80,17 +72,22 @@ println 'End of deploy rest'
 
 println 'Start of deploy feeder'
 
+ /// waiting storm-nimbus NODES #2
+println "Waiting for nimbus service..."
+    def nimbServicesec = context.waitForService("storm-nimbus", 2000, TimeUnit.SECONDS)
+        if (nimbServicesec == null) {
+    throw new IllegalStateException("stats service not found.");
+        }
+
+
 def lookuplocators = context.attributes.thisApplication["xaplookuplocators"]
 def JAVA_HOME = "${System.getenv('HOME')}/java"
 context.attributes.thisInstance["javaHome"] = JAVA_HOME as String
 
 
+builder = new AntBuilder()
+builder.sequential {
+    exec(executable:"./feeder.sh", osfamily:"unix") {
 
-def command = """java -classpath ${config.feeder} com.gigaspaces.storm.googleanalytics.feeder.Main ${look}"""		// Create the String
-def proc = command.execute()                 // Call *execute* on the string
-proc.waitFor()                               // Wait for the command to finish
-
-// Obtain status and output
-println "return code: ${ proc.exitValue()}"
-println "stderr: ${proc.err.text}"
-println "stdout: ${proc.in.text}"
+    }
+}

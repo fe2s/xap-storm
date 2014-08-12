@@ -12,15 +12,14 @@ println "START STORM DEPLOY"
 ///
 /// FIND xap-management NODES
 ///
-def service = null
+/// waiting xap-container NODES
 
-while (service == null)
-{
-    println "Locating xap-management service...";
-    service = context.waitForService("xap-management", 400, TimeUnit.SECONDS)
+println "Waiting for xap-container service..."
+def xapService = context.waitForService(config.containerServiceName, 1500, TimeUnit.SECONDS)
+if (xapService == null) {
+    throw new IllegalStateException("xap-man. service not found.");
+
 }
-
-println "Found xap-management nodes!!"
 
 def lookuplocators = context.attributes.thisApplication["xaplookuplocators"]
 println "lookup server ip is: ${lookuplocators}"
