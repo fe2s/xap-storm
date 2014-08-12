@@ -15,7 +15,7 @@ println "START STORM DEPLOY"
 /// waiting xap-container NODES
 
 println "Waiting for xap-container service..."
-def xapService = context.waitForService(config.containerServiceName, 1500, TimeUnit.SECONDS)
+def xapService = context.waitForService("xap-container", 1500, TimeUnit.SECONDS)
 if (xapService == null) {
     throw new IllegalStateException("xap-man. service not found.");
 
