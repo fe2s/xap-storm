@@ -9,9 +9,7 @@ import groovy.util.ConfigSlurper
 context=ServiceContextFactory.serviceContext
 
 println "START STORM DEPLOY"
-///
-/// FIND xap-management NODES
-///
+
 /// waiting xap-container NODES
 
 println "Waiting for xap-container service..."
@@ -35,6 +33,3 @@ builder.sequential {
 }
 
 println "END STORM DEPLOY"
-
-
-

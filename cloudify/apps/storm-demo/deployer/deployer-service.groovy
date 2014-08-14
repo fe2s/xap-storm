@@ -13,37 +13,35 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 *******************************************************************************/
-application {
-	name="storm-demo"
+import java.util.concurrent.TimeUnit;
 
-    service {
-        name = "xap-management"
 
+
+service {
+
+    name "deployer"
+    type "APP_SERVER"
+    icon "storm.png"
+    numInstances 1
+
+
+    compute {
+        template "SMALL_LINUX"
     }
 
-    service {
-        name = "xap-container"
-        dependsOn = ["xap-management"]
-    }
+    lifecycle {
 
-    service {
-		name = "zookeeper"
-        dependsOn = ["xap-container"]
-    }
-	
-	service {
-		name = "storm-nimbus"
-		dependsOn = ["zookeeper"]
+        install "deployer_install.groovy"
+        start "deployer_start.groovy"
 
-	}
+        locator {
+            //hack to avoid monitoring started processes by cloudify
+            return [] as LinkedList
+        }
 
-	service {
-		name = "storm-supervisor"
-		dependsOn = ["storm-nimbus"]
-	}
-    service {
-        name = "deployer"
-        dependsOn = ["xap-management"]
-    }
+
+          }
+
 
 }
+

@@ -74,7 +74,7 @@ println 'Start of deploy feeder'
 
  /// waiting storm-nimbus NODES #2
 println "Waiting for nimbus service..."
-    def nimbServicesec = context.waitForService("storm-nimbus", 2000, TimeUnit.SECONDS)
+    def nimbServicesec = context.waitForService("storm-nimbus", 3000, TimeUnit.SECONDS)
         if (nimbServicesec == null) {
     throw new IllegalStateException("stats service not found.");
         }
