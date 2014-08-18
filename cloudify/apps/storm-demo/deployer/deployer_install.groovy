@@ -16,15 +16,15 @@ import org.openspaces.admin.pu.config.ProcessingUnitConfig
 context=ServiceContextFactory.serviceContext
 config = new ConfigSlurper().parse(new File(context.serviceName+"-service.properties").toURL())
 
-if (!context.isLocalCloud()) {
-    new AntBuilder().sequential {
-        mkdir(dir: "${config.installDir}")
-        get(src: config.downloadPath, dest: "${config.installDir}/${config.zipName}", skipexisting: true)
-        unzip(src: "${config.installDir}/${config.zipName}", dest: config.installDir, overwrite: true)
-        chmod(dir: "${config.installDir}/${config.xapDir}/bin", perm: "+x", includes: "*.sh")
-        chmod(dir: "${context.serviceDirectory}/files/", perm: "+x", includes: "*.sh")
-    }
+
+new AntBuilder().sequential {
+    mkdir(dir: "${config.installDir}")
+    get(src: config.downloadPath, dest: "${config.installDir}/${config.zipName}", skipexisting: true)
+    unzip(src: "${config.installDir}/${config.zipName}", dest: config.installDir, overwrite: true)
+    chmod(dir: "${config.installDir}/${config.xapDir}/bin", perm: "+x", includes: "*.sh")
+    chmod(dir: "${context.serviceDirectory}/files/", perm: "+x", includes: "*.sh")
 }
+
 
 
 
