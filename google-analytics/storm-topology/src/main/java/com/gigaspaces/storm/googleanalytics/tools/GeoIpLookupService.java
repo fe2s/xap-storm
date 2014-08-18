@@ -5,8 +5,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
-import java.net.URL;
-import java.nio.file.Files;
 
 /**
  * Converts IP address to country.
@@ -39,7 +37,8 @@ public class GeoIpLookupService {
         File dbInTempDir = new File(tempDirectory + File.separator + DB_FILE_NAME);
         if (!dbInTempDir.exists()) {
             InputStream dbStream = this.getClass().getClassLoader().getResourceAsStream(DB_FILE_NAME);
-            Files.copy(dbStream, dbInTempDir.toPath());
+            IOUtils.copy(dbStream, new FileOutputStream(dbInTempDir));
+
         }
         return dbInTempDir;
     }
