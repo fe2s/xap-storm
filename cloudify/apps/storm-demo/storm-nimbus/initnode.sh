@@ -1,4 +1,4 @@
-#!/bin/bash -x
+
 
 SUDO=sudo
 if [ $USER = root ]; then

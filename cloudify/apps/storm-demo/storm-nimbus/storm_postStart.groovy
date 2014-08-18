@@ -9,18 +9,15 @@ import groovy.util.ConfigSlurper
 context=ServiceContextFactory.serviceContext
 
 println "START STORM DEPLOY"
-///
-/// FIND xap-management NODES
-///
-def service = null
 
-while (service == null)
-{
-    println "Locating xap-management service...";
-    service = context.waitForService("xap-management", 400, TimeUnit.SECONDS)
+/// waiting xap-container NODES
+
+println "Waiting for xap-container service..."
+def xapService = context.waitForService("xap-container", 1500, TimeUnit.SECONDS)
+if (xapService == null) {
+    throw new IllegalStateException("xap-man. service not found.");
+
 }
-
-println "Found xap-management nodes!!"
 
 def lookuplocators = context.attributes.thisApplication["xaplookuplocators"]
 println "lookup server ip is: ${lookuplocators}"
@@ -36,6 +33,3 @@ builder.sequential {
 }
 
 println "END STORM DEPLOY"
-
-
-

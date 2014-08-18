@@ -13,11 +13,35 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 *******************************************************************************/
-version = "3.4.5"
-name = "zookeeper-${version}"
-zipName = "${name}.tar.gz"
-installDir = "install"
-downloadPath = "http://www.dsgnwrld.com/am/zookeeper/zookeeper-${version}/${zipName}"
-script = "${installDir}/${name}/bin/zkServer"
-clientPort=2181
+import java.util.concurrent.TimeUnit;
+
+
+
+service {
+
+    name "deployer"
+    type "APP_SERVER"
+    icon "storm.png"
+    numInstances 1
+
+
+    compute {
+        template "SMALL_LINUX"
+    }
+
+    lifecycle {
+
+        install "deployer_install.groovy"
+        start "deployer_start.groovy"
+
+        locator {
+            //hack to avoid monitoring started processes by cloudify
+            return [] as LinkedList
+        }
+
+
+          }
+
+
+}
 

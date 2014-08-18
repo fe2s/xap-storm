@@ -60,7 +60,7 @@ service {
 
 		start "xap_start.groovy"
 
-		postStart "xap_postStart.groovy"
+		//postStart "xap_postStart.groovy"
 		
 	        startDetectionTimeoutSecs 180
         	startDetection {

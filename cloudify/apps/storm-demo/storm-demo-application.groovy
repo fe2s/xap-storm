@@ -23,7 +23,7 @@ application {
 
     service {
         name = "xap-container"
-
+        dependsOn = ["xap-management"]
     }
 
     service {
@@ -41,6 +41,9 @@ application {
 		name = "storm-supervisor"
 		dependsOn = ["storm-nimbus"]
 	}
-
+    service {
+        name = "deployer"
+        dependsOn = ["xap-management"]
+    }
 
 }
