@@ -26,7 +26,7 @@ Capability to guarantee exactly-once semantics comes with additional cost. To gu
 
 Basically, Spouts provide the source of tuples for Storm processing.  For spouts to be maximally performant and reliable, they need to provide tuples in batches, and be able to replay failed batches when necessary.  Of course, in order to have batches, you need storage, and to be able to replay batches, you need reliable storage.  XAP is about the highest performing, reliable source of data out there, so a spout that serves tuples from XAP is a natural combination.
 
-[IMAGE HERE]
+![alt tag](https://github.com/fe2s/xap-storm/blob/master/docs/images/xap-general-spout.png)
 
 Depending on domain model and level of guarantees you want to provide, you choose either pure Storm or Trident. We provide Spout implementations for both – XAPSimpleSpout and XAPTranscationalTridentSpout respectively.
 
