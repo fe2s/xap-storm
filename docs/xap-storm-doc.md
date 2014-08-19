@@ -320,7 +320,7 @@ Page view time series report displays the dynamic of visited pages for last minu
 
 ![alt tag](https://github.com/fe2s/xap-storm/blob/master/docs/images/page-views.png)
 
-`PageViewCountBolt` calculates the number of page views and passes local count to PageViewTimeSeriesBolt every second. `PageViewTimeSeriesBolt` maintains a sliding window counter and writes report to XAP space.  
+`PageViewCountBolt` calculates the number of page views and passes local count to `PageViewTimeSeriesBolt` every second. `PageViewTimeSeriesBolt` maintains a sliding window counter and writes report to XAP space.  
 
 ## Geo topology branch ##
 
@@ -359,7 +359,7 @@ mvn os:deploy
 1.	To run topology in embedded Storm you don’t need to install Zookeeper and Storm. Follow all steps from previous section except deployment to Strom. 
 2.	Open `google-analytics/storm-topology/pom.xml` and change scope of storm-core artifact from ‘provided’ to ‘compile’.
 3.	Rebuild the project
-4.	Run storm topology `java -jar ./storm-topology/target/storm-topology-1.0-SNAPSHOT.jar`. Alternatively you can GoogleAnalyticsTopology from your IDE. 
+4.	Run storm topology `java -jar ./storm-topology/target/storm-topology-1.0-SNAPSHOT.jar`. Alternatively you can `GoogleAnalyticsTopology` from your IDE. 
 
 
 ## Deployment to local cloud ##
