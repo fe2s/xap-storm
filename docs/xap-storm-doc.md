@@ -18,7 +18,7 @@
 	- [Building the Application](#user-content-building-the-application)
 	- [Deploying in development environment](#user-content-deploying-in-development-environment)
 	- [Deploying in development environment with embedded Storm](#user-content-deploying-in-development-environment-with-embedded-storm)
-	- [Deployment to local cloud](#user-content-deployment-to-local-cloud)
+	- [Deployment to cloud](#user-content-deployment-to-cloud)
 
 # Introduction #
 
