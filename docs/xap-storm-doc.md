@@ -18,7 +18,7 @@
 	- [Building the Application](#user-content-building-the-application)
 	- [Deploying in development environment](#user-content-deploying-in-development-environment)
 	- [Deploying in development environment with embedded Storm](#user-content-deploying-in-development-environment-with-embedded-storm)
-	- [Deployment to cloud](#user-content-deployment-to-cloud)
+	- [Deployingt to cloud](#user-content-deploying-to-cloud)
 
 # Introduction #
 
@@ -362,7 +362,7 @@ mvn os:deploy
 4.	Run storm topology `java -jar ./storm-topology/target/storm-topology-1.0-SNAPSHOT.jar`. Alternatively you can `GoogleAnalyticsTopology` from your IDE. 
 
 
-## Deployment to cloud ##
+## Deploying to cloud ##
 
 *Please note, recipes tested with Centos 6 only*
 
