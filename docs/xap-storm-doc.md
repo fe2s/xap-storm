@@ -1,3 +1,25 @@
+**Table of Contents** 
+
+- [Introduction](#user-content-introduction)
+- [Storm in a Nutshell](#user-content-storm-in-a-nutshell)
+- [Spouts](#user-content-spouts)
+	- [Storm Spout](#user-content-storm-spout)
+	- [Trident Spout](#user-content-trident-spout)
+- [Trident State](#user-content-trident-state)
+	- [Trident Read-Only state](#user-content-trident-read-only-state)
+- [Storm bolts](#user-content-storm-bolts)
+- [Illustrative example: Real-time Google Analytics](#user-content-illustrative-example-real-time-google-analytics)
+	- [High-level architecture diagram](#user-content-high-level-architecture-diagram)
+	- [Google Analytics Topology. High level overview.](#user-content-google-analytics-topology-high-level-overview)
+	- [Top urls topology branch](#user-content-top-urls-topology-branch)
+	- [Active users topology branch](#user-content-active-users-topology-branch)
+	- [Page view time series topology branch](#user-content-page-view-time-series-topology-branch)
+	- [Geo topology branch](#user-content-geo-topology-branch)
+	- [Building the Application](#user-content-building-the-application)
+	- [Deploying in development environment](#user-content-deploying-in-development-environment)
+	- [Deploying in development environment with embedded Storm](#user-content-deploying-in-development-environment-with-embedded-storm)
+	- [Deployment to local cloud](#user-content-deployment-to-local-cloud)
+
 # Introduction #
 
 Real-time processing is becoming very popular, and Storm is a popular open source framework and runtime used by Twitter for processing real-time data streams.  Storm addresses the complexity of running real time streams through a compute cluster by providing an elegant set of abstractions that make it easier to reason about your problem domain by letting you focus on data flows rather than on implementation details.  
