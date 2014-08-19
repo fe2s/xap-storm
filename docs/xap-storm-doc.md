@@ -372,4 +372,4 @@ mvn os:deploy
 3. Run cloudify `<cloudify_install>/bin/cloudify.sh`
 4. Bootsrap cloud (to bootsrap local cloud, run the following in Cloudify Shell `bootstrap-localcloud`)
 5. Start installation `install-application storm-demo`
-6. Once installation completed, open Cloudify Management Console and check the ip address of `xap-management` service. Google Analytics UI should be available ad `http://<xap_management_service_ip>:8090/web`
+6. Once installation completed, open Cloudify Management Console and check the ip address of `xap-management` service. Google Analytics UI should be available at `http://<xap_management_service_ip>:8090/web`
