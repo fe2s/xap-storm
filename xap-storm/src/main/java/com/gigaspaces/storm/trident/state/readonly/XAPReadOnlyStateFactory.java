@@ -23,14 +23,14 @@ public class XAPReadOnlyStateFactory<T> implements StateFactory {
     }
 
     public static <T> XAPReadOnlyStateFactory byIds(Class<T> clazz) {
-        XAPReadOnlyStateFactory<T> factory = new XAPReadOnlyStateFactory<>();
+        XAPReadOnlyStateFactory<T> factory = new XAPReadOnlyStateFactory<T>();
         factory.lookupStrategy = LookupStrategy.BY_IDS;
         factory.clazz = clazz;
         return factory;
     }
 
     public static <T> XAPReadOnlyStateFactory bySqlQuery(SQLQuery<T> sqlQuery) {
-        XAPReadOnlyStateFactory<T> factory = new XAPReadOnlyStateFactory<>();
+        XAPReadOnlyStateFactory<T> factory = new XAPReadOnlyStateFactory<T>();
         factory.lookupStrategy = LookupStrategy.SQL_QUERY;
         factory.sqlQuery = sqlQuery;
         factory.sqlQueryProjections = sqlQuery.getProjections();

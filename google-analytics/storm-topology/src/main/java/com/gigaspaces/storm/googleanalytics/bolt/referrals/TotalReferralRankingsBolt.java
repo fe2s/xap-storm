@@ -26,13 +26,13 @@ public class TotalReferralRankingsBolt extends TotalRankingsBolt {
     protected void emitRankings(BasicOutputCollector collector) {
         super.emitRankings(collector);
 
-        LinkedHashMap<String, Long> topReferrals = new LinkedHashMap<>();
+        LinkedHashMap<String, Long> topReferrals = new LinkedHashMap<String, Long>();
         for (Rankable rankable : getRankings().getRankings()) {
             topReferrals.put((String)rankable.getObject(), rankable.getCount());
         }
 
         TopReferralsReport topReferralsReport = new TopReferralsReport(topReferrals);
 
-        space.change(new SQLQuery<>(OverallReport.class, "siteId = 'gigaspaces.com'"), new ChangeSet().set("topReferralsReport", topReferralsReport));
+        space.change(new SQLQuery<OverallReport>(OverallReport.class, "siteId = 'gigaspaces.com'"), new ChangeSet().set("topReferralsReport", topReferralsReport));
     }
 }

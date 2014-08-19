@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit
 import org.openspaces.admin.AdminFactory
 println "XAP-PRESTOP STARTING"
 
-locators = context.attributes.thisInstance["xaplookuplocators"]
+locators = context.attributes.thisApplication["xaplookuplocators"]
 admin=new AdminFactory().useDaemonThreads(true).addLocators(locators).createAdmin();
 gsm=admin.gridServiceManagers.waitForAtLeastOne(2,TimeUnit.MINUTES)
 dataGridPU = admin.getProcessingUnits().waitFor("myDataGrid", 2, TimeUnit.MINUTES);
@@ -17,3 +17,5 @@ if (dataGridPU != null) {
 }
 
 println "XAP-PRESTOP FINISHED"
+
+

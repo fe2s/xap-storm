@@ -27,7 +27,7 @@ public class SimpleStreamTest {
 
     @Test
     public void testReadWrite() {
-        SimpleStream<Person> stream = new SimpleStream<>(space, new Person());
+        SimpleStream<Person> stream = new SimpleStream<Person>(space, new Person());
         stream.write(new Person("1"));
         stream.write(new Person("2"));
         stream.write(new Person("3"));
@@ -43,7 +43,7 @@ public class SimpleStreamTest {
 
     @Test
     public void testReadWriteBatch() {
-        SimpleStream<Person> stream = new SimpleStream<>(space, new Person());
+        SimpleStream<Person> stream = new SimpleStream<Person>(space, new Person());
         List<Person> people = Arrays.asList(new Person("1"), new Person("2"), new Person("3"));
         stream.writeBatch(people);
         Person[] persons = stream.readBatch(2);

@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class GigaSpaceFactory {
 
-    private static Map<String, GigaSpace> gigaSpaces = new ConcurrentHashMap<>();
+    private static Map<String, GigaSpace> gigaSpaces = new ConcurrentHashMap<String, GigaSpace>();
 
     public static GigaSpace getInstance(String spaceUrl){
         if (gigaSpaces.containsKey(spaceUrl)){

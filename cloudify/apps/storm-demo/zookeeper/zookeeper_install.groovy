@@ -73,7 +73,7 @@ new AntBuilder().sequential {
 	untar(src:"${config.installDir}/${config.zipName}", dest:config.installDir, overwrite:true, compression:"gzip")
 	//dos2unix on the linux script files
 	fixcrlf(srcDir:"${config.installDir}/${config.name}/bin", eol:"lf", eof:"remove", excludes:"*.bat *.jar")
-	delete(file:"${config.installDir}/${config.zipName}")
+	//delete(file:"${config.installDir}/${config.zipName}")
 
    //use default config
 	move(file:"${config.installDir}/${config.name}/conf/zoo_sample.cfg", tofile:"${config.installDir}/${config.name}/conf/zoo.cfg");

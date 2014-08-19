@@ -39,7 +39,7 @@ public class TotalActiveUsersBolt extends XAPAwareBasicBolt {
     @Override
     public void prepare(Map stormConf, TopologyContext context) {
         super.prepare(stormConf, context);
-        this.activeUsersPerPartition = new HashMap<>();
+        this.activeUsersPerPartition = new HashMap<Integer, Integer>();
     }
 
     @Override
@@ -65,7 +65,7 @@ public class TotalActiveUsersBolt extends XAPAwareBasicBolt {
         log.debug("Total number of active users " + totalActiveUsers);
         collector.emit(Arrays.<Object>asList(totalActiveUsers));
 
-        space.change(new SQLQuery<>(OverallReport.class, "siteId = 'gigaspaces.com'"), new ChangeSet().set("activeUsersReport", new ActiveUsersReport(totalActiveUsers)));
+        space.change(new SQLQuery<OverallReport>(OverallReport.class, "siteId = 'gigaspaces.com'"), new ChangeSet().set("activeUsersReport", new ActiveUsersReport(totalActiveUsers)));
     }
 
     @Override

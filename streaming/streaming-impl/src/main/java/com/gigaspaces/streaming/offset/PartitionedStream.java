@@ -56,7 +56,7 @@ public class PartitionedStream<T> {
     public void writeBatch(List<T> objects) {
         int batchSize = objects.size();
         Long endOffset = writerHead.addAndGet(batchSize);
-        List<Item> items = new ArrayList<>(batchSize);
+        List<Item> items = new ArrayList<Item>(batchSize);
 
         long offset = endOffset - batchSize + 1;
         for (T object : objects) {
@@ -104,7 +104,7 @@ public class PartitionedStream<T> {
      */
     public void ack(long batchId) {
         BatchMetadata batchMetadata = localSpace.takeById(BatchMetadata.class, batchId);
-        SQLQuery<Item> query = new SQLQuery<>(Item.class, "streamId = ? and (offset >= ? and offset < ?)");
+        SQLQuery<Item> query = new SQLQuery<Item>(Item.class, "streamId = ? and (offset >= ? and offset < ?)");
         long startOffset = batchMetadata.getOffset();
         long endOffset = startOffset + batchMetadata.getCount();
         query.setParameters(streamId, startOffset, endOffset);
@@ -115,7 +115,7 @@ public class PartitionedStream<T> {
      * @return number of elements in stream
      */
     public int size() {
-        Item<T> template = new Item<>();
+        Item<T> template = new Item<T>();
         template.setStreamId(streamId);
         return localSpace.count(template);
     }
@@ -130,11 +130,11 @@ public class PartitionedStream<T> {
     }
 
     private List<T> read(long offset, long count) {
-        SQLQuery<Item> query = new SQLQuery<>(Item.class, "streamId = ? and (offset >= ? and offset < ?)");
+        SQLQuery<Item> query = new SQLQuery<Item>(Item.class, "streamId = ? and (offset >= ? and offset < ?)");
         query.setParameters(streamId, offset, offset + count);
 
         Item[] items = localSpace.readMultiple(query);
-        List<T> objects = new ArrayList<>(items.length);
+        List<T> objects = new ArrayList<T>(items.length);
         for (Item item : items) {
             objects.add((T) item.getValue());
         }

@@ -108,7 +108,7 @@ new AntBuilder().sequential {
 
    //dos2unix on the linux script files
 	fixcrlf(srcDir:"${config.installDir}/${config.name}/bin", eol:"lf", eof:"remove", excludes:"*.bat *.jar")
-	delete(file:"${config.installDir}/${config.zipName}")
+	//delete(file:"${config.installDir}/${config.zipName}")
 
    //templates start scripts
 	chmod(file:"${config.installDir}/${config.name}/bin/storm", perm:'ugo+rx')

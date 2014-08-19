@@ -42,10 +42,10 @@ public class PageViewFeeder {
         put("http://www.gigaspaces.com/user/register?destination=node%2F1", 6);
     }};
 
-    private List<String> urls = new ArrayList<>();
-    private List<String> referrals = new ArrayList<>();
-    private List<String> sessions = new ArrayList<>();
-    private Map<String, String> ips = new HashMap<>();
+    private List<String> urls = new ArrayList<String>();
+    private List<String> referrals = new ArrayList<String>();
+    private List<String> sessions = new ArrayList<String>();
+    private Map<String, String> ips = new HashMap<String, String>();
 
     private Random random = new Random(System.currentTimeMillis());
 
@@ -77,7 +77,7 @@ public class PageViewFeeder {
      * @return list of {@link com.gigaspaces.storm.googleanalytics.model.feeder.PageView} request.
      */
     public List<PageView> nextRequestsList(int count) {
-        List<PageView> pageViewList = new ArrayList<>(count);
+        List<PageView> pageViewList = new ArrayList<PageView>(count);
         for (int i = 0; i < count; i++) {
             pageViewList.add(nextRequest());
         }

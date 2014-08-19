@@ -22,7 +22,7 @@ context=ServiceContextFactory.serviceContext
 config = new ConfigSlurper().parse(new File(context.serviceName+"-service.properties").toURL())
 ip = context.attributes.thisInstance.service_ip
 lookuplocators = "${ip}:${config.lusPort}"
-context.attributes.thisInstance["xaplookuplocators"] = lookuplocators
+context.attributes.thisApplication["xaplookuplocators"] = lookuplocators
 
 println "Private IP: ${ip}, lookuplocators: ${lookuplocators}"
 

@@ -49,7 +49,9 @@ mgmt.instances.each{
     thisService.invoke("update-hosts",it.hostAddress,lusname as String)
     locators+="${lusname}:${lusPort},"
 }
-context.attributes.thisInstance["xaplocators"] = locators
+//context.attributes.thisInstance["xaplocators"] = locators
+locators = context.attributes.thisApplication["xaplookuplocators"]
+
 println "locators = ${locators}"
 
 new AntBuilder().sequential {

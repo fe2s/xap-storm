@@ -24,14 +24,16 @@ public class PageViewService {
 
     @PostConstruct
     public void init() throws Exception {
-        stream = new SimpleStream<>(space, new PageView());
+        stream = new SimpleStream<PageView>(space, new PageView());
     }
 
     /**
      * sends page views to the stream
      */
     public void track(List<PageView> pageViewList) {
-        stream.writeBatch(pageViewList);
+        if (!pageViewList.isEmpty()){
+            stream.writeBatch(pageViewList);
+        }
     }
 
     public void registerSite(String siteId) {

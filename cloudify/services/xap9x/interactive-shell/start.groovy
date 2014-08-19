@@ -17,7 +17,7 @@ if(uuid==null){
 
 //Get locator(s)
 println "Waiting (max) 5 minutes for ${config.managementService}"
-mgmt=context.waitForService(config.managementService,5,TimeUnit.MINUTES)
+mgmt=context.waitForService(config.managementService,10,TimeUnit.MINUTES)
 assert (mgmt!=null),"No management services found"
 
 mgmtservices = mgmt.waitForInstances(1, 1, TimeUnit.MINUTES)

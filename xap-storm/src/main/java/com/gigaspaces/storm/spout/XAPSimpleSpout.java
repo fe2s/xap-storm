@@ -72,7 +72,7 @@ public class XAPSimpleSpout<T extends Serializable> extends BaseRichSpout {
 
     protected void setupXapStream() {
         GigaSpace space = GigaSpaceFactory.getInstance(xapSpaceUrl);
-        this.xapStream = new SimpleStream<>(space, xapStreamTemplateItem);
+        this.xapStream = new SimpleStream<T>(space, xapStreamTemplateItem);
     }
 
     public void setXapSpaceUrl(String xapSpaceUrl) {

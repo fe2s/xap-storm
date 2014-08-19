@@ -25,7 +25,7 @@ public class XAPState<T> implements IBackingMap<T> {
 
     @Override
     public List<T> multiGet(List<List<Object>> keys) {
-        List<Object> singleKeys = new ArrayList<>(keys.size());
+        List<Object> singleKeys = new ArrayList<Object>(keys.size());
         for (List<Object> key : keys) {
             singleKeys.add(toSingleKey(key));
         }
@@ -48,13 +48,13 @@ public class XAPState<T> implements IBackingMap<T> {
 
     @Override
     public void multiPut(List<List<Object>> keys, List<T> vals) {
-        List<XAPStateItem> items = new ArrayList<>(keys.size());
+        List<XAPStateItem> items = new ArrayList<XAPStateItem>(keys.size());
 
         for (int i = 0; i < keys.size(); i++) {
             Object key = toSingleKey(keys.get(i));
             T val = vals.get(i);
             Serializable xapVal = convertToXapValue(val);
-            items.add(new XAPStateItem<>(key, xapVal));
+            items.add(new XAPStateItem<Serializable>(key, xapVal));
         }
         space.writeMultiple(items.toArray(), WriteModifiers.ONE_WAY);
     }
@@ -68,20 +68,20 @@ public class XAPState<T> implements IBackingMap<T> {
             return new XAPTransactionalValue<T>(transactional.getTxid(), transactional.getVal());
         }
         if (val instanceof OpaqueValue) {
-            OpaqueValue opaqueValue = (OpaqueValue) val;
-            return new XAPOpaqueValue<>(opaqueValue.getCurrTxid(), opaqueValue.getCurr(), opaqueValue.getPrev());
+            OpaqueValue<T> opaqueValue = (OpaqueValue) val;
+            return new XAPOpaqueValue<T>(opaqueValue.getCurrTxid(), opaqueValue.getCurr(), opaqueValue.getPrev());
         }
         throw new RuntimeException("Non serializable and not supported value " + val);
     }
 
     private Object convertFromXapValue(Object xapVal) {
         if (xapVal instanceof XAPTransactionalValue) {
-            XAPTransactionalValue xapTransactional = (XAPTransactionalValue) xapVal;
-            return new TransactionalValue<>(xapTransactional.getTxid(), xapTransactional.getVal());
+            XAPTransactionalValue<T> xapTransactional = (XAPTransactionalValue) xapVal;
+            return new TransactionalValue<T>(xapTransactional.getTxid(), xapTransactional.getVal());
         }
         if (xapVal instanceof XAPOpaqueValue) {
-            XAPOpaqueValue xapOpaque = (XAPOpaqueValue) xapVal;
-            return new OpaqueValue<>(xapOpaque.getCurrTxid(), ((XAPOpaqueValue) xapVal).getCurr(), xapOpaque.getPrev());
+            XAPOpaqueValue<T> xapOpaque = (XAPOpaqueValue) xapVal;
+            return new OpaqueValue<T>(xapOpaque.getCurrTxid(), xapOpaque.getCurr(), xapOpaque.getPrev());
         }
         return xapVal;
     }

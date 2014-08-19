@@ -25,7 +25,7 @@ public class XAPReadOnlyState<T> extends ReadOnlyState implements ReadOnlyMapSta
     }
 
     public static <T> XAPReadOnlyState<T> byIds(String spaceUrl, Class<T> clazz) {
-        XAPReadOnlyState<T> state = new XAPReadOnlyState<>();
+        XAPReadOnlyState<T> state = new XAPReadOnlyState<T>();
         state.lookupStrategy = LookupStrategy.BY_IDS;
         state.space = GigaSpaceFactory.getInstance(spaceUrl);
         state.clazz = clazz;
@@ -33,7 +33,7 @@ public class XAPReadOnlyState<T> extends ReadOnlyState implements ReadOnlyMapSta
     }
 
     public static <T> XAPReadOnlyState<T> sqlQuery(String spaceUrl, SQLQuery<T> sqlQuery, String[] sqlQueryProjections) {
-        XAPReadOnlyState<T> state = new XAPReadOnlyState<>();
+        XAPReadOnlyState<T> state = new XAPReadOnlyState<T>();
         state.lookupStrategy = LookupStrategy.SQL_QUERY;
         state.space = GigaSpaceFactory.getInstance(spaceUrl);
         state.sqlQuery = sqlQuery;
@@ -54,20 +54,20 @@ public class XAPReadOnlyState<T> extends ReadOnlyState implements ReadOnlyMapSta
     }
 
     private List<T> multiGeyByIds(List<List<Object>> keys) {
-        List<Object> singleKeys = new ArrayList<>(keys.size());
+        List<Object> singleKeys = new ArrayList<Object>(keys.size());
         for (List<Object> key : keys) {
             singleKeys.add(toSingleKey(key));
         }
         ReadByIdsResult<T> result = space.readByIds(clazz, singleKeys.toArray());
 
-        List<T> items = new ArrayList<>(result.getResultsArray().length);
+        List<T> items = new ArrayList<T>(result.getResultsArray().length);
         Collections.addAll(items, result.getResultsArray());
 
         return items;
     }
 
     private List<T> multiGetBySqlQuery(List<List<Object>> keys) {
-        List<T> items = new ArrayList<>(keys.size());
+        List<T> items = new ArrayList<T>(keys.size());
         for (List<Object> key : keys) {
             sqlQuery.setParameters(key.toArray());
             T item = space.read(sqlQuery);
