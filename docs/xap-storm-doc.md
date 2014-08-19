@@ -28,13 +28,13 @@ Basically, Spouts provide the source of tuples for Storm processing.  For spouts
 
 ![alt tag](https://github.com/fe2s/xap-storm/blob/master/docs/images/xap-general-spout.png)
 
-Depending on domain model and level of guarantees you want to provide, you choose either pure Storm or Trident. We provide Spout implementations for both – XAPSimpleSpout and XAPTranscationalTridentSpout respectively.
+Depending on domain model and level of guarantees you want to provide, you choose either pure Storm or Trident. We provide Spout implementations for both – `XAPSimpleSpout` and `XAPTranscationalTridentSpout` respectively.
 
 ## Storm Spout ##
 
-`XAPSimpleSpout` is a spout implementation for pure Storm that reads data in batches from XAP. On XAP side we introduce conception of stream. Please find `SimpleStream` – a stream implementation that supports writing data in single and batch modes and reading in batch mode. SimpleStream leverages XAP’s FIFO(First In, First Out) capabilities. 
+`XAPSimpleSpout` is a spout implementation for pure Storm that reads data in batches from XAP. On XAP side we introduce conception of stream. Please find `SimpleStream` – a stream implementation that supports writing data in single and batch modes and reading in batch mode. `SimpleStream` leverages XAP’s FIFO(First In, First Out) capabilities. 
 
-[IMAGE HERE]
+![alt tag](https://github.com/fe2s/xap-storm/blob/master/docs/images/simple-spout.png)
 
 `SimpleStream` works with arbitrary space class that has `FifoSupport.OPERATION` annotation and implements `Serializable`. 
 
@@ -112,7 +112,7 @@ There are several spout APIs available that we could potentially use for our XAP
 
 For our implementation we choose `ITridentSpout` API. 
 
-[IMAGE HERE]
+![alt tag](https://github.com/fe2s/xap-storm/blob/master/docs/images/trident-spout.png)
 
 There is one to one mapping between XAP partitions and emitters. 
 
@@ -120,7 +120,7 @@ Storm framework guarantees that topology is high available, if some component fa
 
 When emitter is created, it calls remote service `ConsumerRegistryService` to register itself. `ConsumerRegistryService` knows the number of XAP partitions and keeps track of the last allocated partition.  This information is reliably stored in the space, see `ConsumerRegistry.java`.
 
-[IMAGE HERE]
+![alt tag](https://github.com/fe2s/xap-storm/blob/master/docs/images/consumer-registry.png)
 
 Remember that parallelism hint for `XAPTranscationalTridentSpout` should equal to the number of XAP partitions.
 
@@ -131,7 +131,7 @@ The property of being transactional is defined in Trident as following:
 
 `XAPTranscationalTridentSpout` works with `PartitionedStream` that wraps stream elements into Item class and keeps items ordered by ‘offset’ property. There is one `PartitionStream` instance per XAP partition.
 
-[IMAGE HERE]
+![alt tag](https://github.com/fe2s/xap-storm/blob/master/docs/images/partitioned-stream.png)
 
 Stream’s `WriterHead` holds the last offset in the stream.  Any time batch of elements (or single element) written to stream, `WriterHead` incremented by the number of elements. Allocated numbers used to populate offset property of Items. `WriterHead` object is kept in heap, there is no need to keep it in space. If primary partition fails, `WriterHead` is reinitialized to be the max offset value for given stream.   
 
@@ -165,7 +165,7 @@ Trident has first-class abstractions for reading from and writing to stateful so
 
 In Trident topology that is persisting state via this mechanism, the overall throughput is almost certainly constrained by the performance of the state persistence.  This is a good place where XAP can step in and provide extremely high performance persistence for stream processing state.  
 
-[IMAGE HERE]
+![alt tag](https://github.com/fe2s/xap-storm/blob/master/docs/images/trident-state.png)
 
 XAP Trident state implementation supports all state types – non-transactional, transactional and opaque.  All you need to create a Trident state is configure space url and choose appropriate factory method of `XAPStateFactory` class:
 
@@ -247,7 +247,7 @@ Real-Time Google Analytics allows you to monitor activity as it happens on your 
 
 ## High-level architecture diagram  ##
 
-[IMAGE HERE]
+![alt tag](https://github.com/fe2s/xap-storm/blob/master/docs/images/google-analytics-high-level.png)
 
 *PageView feeder* is a standalone java application that simulates users on the site. It continuously sends `PageView` json to rest service endpoints deployed in XAP web PU. PageView looks like this
 
@@ -266,7 +266,7 @@ We use pure Storm to build topology. There are several reasons why we don’t us
 
 ## Google Analytics Topology. High level overview. ##
 
-[IMAGE HERE]
+![alt tag](https://github.com/fe2s/xap-storm/blob/master/docs/images/google-analytics-topology.png)
 
 PageView spout forks five branches, each branch calculates its report and can be scaled independently. The final bolt in the branch writes data to XAP space.  In the next sections we take a closer look at branches design.
 
@@ -274,7 +274,7 @@ PageView spout forks five branches, each branch calculates its report and can be
 
 Top urls report displays top 10 visited urls for the last ten seconds. Topology implements distributed rolling count algorithm. The report is updated every second. 
 
-[IMAGE HERE]
+![alt tag](https://github.com/fe2s/xap-storm/blob/master/docs/images/top-urls.png)
 
 Tuples flow from spout to `UrlRollingCountBolt` grouped by ‘url’. `UrlRollingCountBolt` calculates rolling count with sliding windows of 10 seconds for every url. Sliding windows is basically a cyclic buffer with a head pointing to current slot. When bolt receives new tuple, it finds a sliding window for this tuple and increments the number in current slot. Every two seconds `UrlRollingCountBolt` emits the sum of sliding window for every url, then sliding windows advance and head points to the next slot. 
 
@@ -286,7 +286,7 @@ Top referrals topology branch is identical to top urls one. The only difference 
 
 Active users report displays how many people on the site right now. We assume that if user hasn’t opened any page for the last N seconds, then user has left the site. Users are uniquely identified by ‘sessionId’ tuple field. For demo purpose N is configured to 5 seconds, though it should be much longer in real life application.
 
-[IMAGE HERE]
+![alt tag](https://github.com/fe2s/xap-storm/blob/master/docs/images/active-users.png)
 
 Tuples flow from spout to `PartitionedActiveUsersBolt` grouped by ‘sessionId’. For every sessionId  `PartitionedActiveUsersBolt`  keeps track of the last seen time. Every second it removes sessions seen last time earlier than N seconds before and then emits the number of remaining ones.
 
@@ -296,7 +296,7 @@ Tuples flow from spout to `PartitionedActiveUsersBolt` grouped by ‘sessionId�
 
 Page view time series report displays the dynamic of visited pages for last minute. The chart is updated every second.
 
-[IMAGE HERE]
+![alt tag](https://github.com/fe2s/xap-storm/blob/master/docs/images/page-views.png)
 
 `PageViewCountBolt` calculates the number of page views and passes local count to PageViewTimeSeriesBolt every second. `PageViewTimeSeriesBolt` maintains a sliding window counter and writes report to XAP space.  
 
@@ -304,7 +304,7 @@ Page view time series report displays the dynamic of visited pages for last minu
 
 Geo report displays a map of users’ geographical location. Depending on the volume of traffic from particular country, country is filled with different colors on the map. 
 
-[IMAGE HERE]
+![alt tag](https://github.com/fe2s/xap-storm/blob/master/docs/images/geo.png)
 
 IP address converted to country using [MaxMind GeoIP database](http://dev.maxmind.com/). The database is a binary file loaded into `GeoIPBolt’s` heap. `GeoIpLookupService` ensures that it’s loaded only once per JVM. 
 
