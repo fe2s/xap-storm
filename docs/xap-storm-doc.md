@@ -362,7 +362,7 @@ mvn os:deploy
 4.	Run storm topology `java -jar ./storm-topology/target/storm-topology-1.0-SNAPSHOT.jar`. Alternatively you can `GoogleAnalyticsTopology` from your IDE. 
 
 
-## Deployment to local cloud ##
+## Deployment to cloud ##
 
 *Please note, recipes tested with Centos 6 only*
 
@@ -370,7 +370,6 @@ mvn os:deploy
 2. Make sure that `<project_root>/cloudify/apps/storm-demo/deployer/files` contains up-to-date version of `space-1.0.-SNAPSHOT.jar`, `web.war` and `feeder-1.0-SNAPSHOT.jar`. As well as `<project_root>/cloudify/apps/storm-demo/storm-nimbus/commands` contains `storm-topology-1.0-SNAPSHOT.jar` (you can copy them from maven's target directories using `<project_root>/dev-scripts/copy-artifacts-to-cloudify.sh` script)
 2. Copy `<project_root>/cloudify` recipes to `<cloudify_install>/recipes` directory
 3. Run cloudify `<cloudify_install>/bin/cloudify.sh`
-4. In Cloudify Shell run the following to bootstrap local cloud `bootstrap-localcloud`
+4. Bootsrap cloud (to bootsrap local cloud, run the following in Cloudify Shell `bootstrap-localcloud`)
 5. Start installation `install-application storm-demo`
-6. Once installation completed, Google Analytics UI should be available at [http://localhost:8090/web/](http://localhost:8090/web/)
-
+6. Once installation completed, open Cloudify Management Console and check the ip address of `xap-management` service. Google Analytics UI should be available ad `http://<xap_management_service_ip>:8090/web`
