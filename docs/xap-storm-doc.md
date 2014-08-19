@@ -32,13 +32,13 @@ Depending on domain model and level of guarantees you want to provide, you choos
 
 ## Storm Spout ##
 
-XAPSimpleSpout is a spout implementation for pure Storm that reads data in batches from XAP. On XAP side we introduce conception of stream. Please find SimpleStream – a stream implementation that supports writing data in single and batch modes and reading in batch mode. SimpleStream leverages XAP’s FIFO(First In, First Out) capabilities. 
+`XAPSimpleSpout` is a spout implementation for pure Storm that reads data in batches from XAP. On XAP side we introduce conception of stream. Please find `SimpleStream` – a stream implementation that supports writing data in single and batch modes and reading in batch mode. SimpleStream leverages XAP’s FIFO(First In, First Out) capabilities. 
 
 [IMAGE HERE]
 
-SimpleStream works with arbitrary space class that has FifoSupport.OPERATION annotation and implements Serializable. 
+`SimpleStream` works with arbitrary space class that has `FifoSupport.OPERATION` annotation and implements `Serializable`. 
 
-Here is an example how one may write data to SimpleStream and process it in Storm topology. Let’s consider we would like to build an application to analyze the stream of page views (user clicks) on website. At first, we create a data model that represents a page view 
+Here is an example how one may write data to `SimpleStream` and process it in Storm topology. Let’s consider we would like to build an application to analyze the stream of page views (user clicks) on website. At first, we create a data model that represents a page view 
 
 ```java
 @SpaceClass(fifoSupport = FifoSupport.OPERATION)
@@ -57,10 +57,10 @@ SimpleStream<PageView> stream = new SimpleStream<>(space, new PageView());
 stream.writeBatch(pageViews);
 ```
 
-The second argument of SimpleStream is a template used to match objects during reading. 
+The second argument of `SimpleStream` is a template used to match objects during reading. 
 If you want to have several streams with the same type, template objects should differentiate your streams.
 
-Now let’s create a spout for PageView stream. 
+Now let’s create a spout for `PageView` stream. 
 
 ```java
 public class PageViewSpout extends XAPSimpleSpout<PageView> {
@@ -70,7 +70,7 @@ public class PageViewSpout extends XAPSimpleSpout<PageView> {
 }
 ```
 
-To create a spout, we have to specify how we want our space class be converted to Storm tuple. That is exactly what TupleConverter knows about.
+To create a spout, we have to specify how we want our space class be converted to Storm tuple. That is exactly what `TupleConverter` knows about.
 
 ```java
 class PageViewTupleConverter implements TupleConverter<PageView> {
@@ -86,31 +86,31 @@ class PageViewTupleConverter implements TupleConverter<PageView> {
 }  
 ```
 
-At this point we have everything ready to build Storm topology with PageViewSpout. 
+At this point we have everything ready to build Storm topology with `PageViewSpout`. 
 
 ```java
 Config conf = new Config();
 conf.put(ConfigConstants.XAP_SPACE_URL_KEY, "jini://*/*/space");
 conf.put(ConfigConstants. XAP_STREAM_BATCH_SIZE, 300);
 TopologyBuilder builder = new TopologyBuilder();
-builder.setSpout(“pageViewSpout”, new PageViewSpout());
+builder.setSpout("pageViewSpout", new PageViewSpout());
 ```
 
-ConfigConstants.XAP_SPACE_URL_KEY is a space URL
+`ConfigConstants.XAP_SPACE_URL_KEY` is a space URL
 
-ConfigConstants. XAP_STREAM_BATCH_SIZE is a maximum number of items that spout reads from XAP with one hit.
+`ConfigConstants. XAP_STREAM_BATCH_SIZE` is a maximum number of items that spout reads from XAP with one hit.
 
 ## Trident Spout ##
 
-XAPTranscationalTridentSpout is a scalable, fault-tolerant, transactional spout for Trident, supports pipelining. Let’s discuss all its properties in details.
+`XAPTranscationalTridentSpout` is a scalable, fault-tolerant, transactional spout for Trident, supports pipelining. Let’s discuss all its properties in details.
 
 For spout to be maximally performant, we want an ability to scale the number of instances to control the parallelism of reader threads. 
 
 There are several spout APIs available that we could potentially use for our XAPTranscationalTridentSpout implementation:
-- IPartitionedTridentSpout: A transactional spout that reads from a partitioned data source. The problem with this API is that it doesn’t acknowledge when batch is successfully processed which is critical for in memory solutions since we want to remove items from the grid as soon as they have been processed. Another option would be to use XAP’s lease capability to remove items by time out. This might be unsafe, if we keep items too long, we might consume all available memory.     
-- ITridentSpout: The most general API. Setting parallelism hint for this spout to N will create N spout instances, single coordinator and N emitters. When coordinator issues new transaction id, it passes this id to all emitters. Emitter reads its portion of transaction by given transaction id. Merged data from all emitters forms transaction.
+- `IPartitionedTridentSpout`: A transactional spout that reads from a partitioned data source. The problem with this API is that it doesn’t acknowledge when batch is successfully processed which is critical for in memory solutions since we want to remove items from the grid as soon as they have been processed. Another option would be to use XAP’s lease capability to remove items by time out. This might be unsafe, if we keep items too long, we might consume all available memory.     
+- `ITridentSpout`: The most general API. Setting parallelism hint for this spout to N will create N spout instances, single coordinator and N emitters. When coordinator issues new transaction id, it passes this id to all emitters. Emitter reads its portion of transaction by given transaction id. Merged data from all emitters forms transaction.
 
-For our implementation we choose ITridentSpout API. 
+For our implementation we choose `ITridentSpout` API. 
 
 [IMAGE HERE]
 
@@ -118,32 +118,32 @@ There is one to one mapping between XAP partitions and emitters.
 
 Storm framework guarantees that topology is high available, if some component fails, it restarts it. That means our spout implementation should be stateless or able to recover its state after failure.  
 
-When emitter is created, it calls remote service ConsumerRegistryService to register itself. ConsumerRegistryService knows the number of XAP partitions and keeps track of the last allocated partition.  This information is reliably stored in the space, see ConsumerRegistry.java.
+When emitter is created, it calls remote service `ConsumerRegistryService` to register itself. `ConsumerRegistryService` knows the number of XAP partitions and keeps track of the last allocated partition.  This information is reliably stored in the space, see `ConsumerRegistry.java`.
 
 [IMAGE HERE]
 
-Remember that parallelism hint for XAPTranscationalTridentSpout should equal to the number of XAP partitions.
+Remember that parallelism hint for `XAPTranscationalTridentSpout` should equal to the number of XAP partitions.
 
 The property of being transactional is defined in Trident as following:
 - batches for a given txid are always the same. Replays of batches for a txid will exact same set of tuples as the first time that batch was emitted for that txid.
 - there’s no overlap between batches of tuples (tuples are in one batch or another, never multiple).
 - every tuple is in a batch (no tuples are skipped)
 
-XAPTranscationalTridentSpout works with PartitionedStream that wraps stream elements into Item class and keeps items ordered by ‘offset’ property. There is one PartitionStream instance per XAP partition.
+`XAPTranscationalTridentSpout` works with `PartitionedStream` that wraps stream elements into Item class and keeps items ordered by ‘offset’ property. There is one `PartitionStream` instance per XAP partition.
 
 [IMAGE HERE]
 
-Stream’s WriterHead holds the last offset in the stream.  Any time batch of elements (or single element) written to stream, WriterHead incremented by the number of elements. Allocated numbers used to populate offset property of Items. WriterHead object is kept in heap, there is no need to keep it in space. If primary partition fails, WriterHead is reinitialized to be the max offset value for given stream.   
+Stream’s `WriterHead` holds the last offset in the stream.  Any time batch of elements (or single element) written to stream, `WriterHead` incremented by the number of elements. Allocated numbers used to populate offset property of Items. `WriterHead` object is kept in heap, there is no need to keep it in space. If primary partition fails, `WriterHead` is reinitialized to be the max offset value for given stream.   
 
-ReaderHead points to the last read item. We have to keep this value in the space, otherwise if partition fails we won’t be able to infer this value.
+`ReaderHead` points to the last read item. We have to keep this value in the space, otherwise if partition fails we won’t be able to infer this value.
 
-When spout request new batch, we take ReaderHead, read data from that point and update ReaderHead. New BatchMetadata object is placed to the space, it keeps start offset and number of items in the batch. In case Storm requests transaction replaying, we are able to reread exactly the same items by given batchId. Finally, once Storm acknowledges that batch successfully processed, we delete BatchMetadata and corresponding items from the space.
+When spout request new batch, we take `ReaderHead`, read data from that point and update `ReaderHead`. New `BatchMetadata` object is placed to the space, it keeps start offset and number of items in the batch. In case Storm requests transaction replaying, we are able to reread exactly the same items by given batchId. Finally, once Storm acknowledges that batch successfully processed, we delete `BatchMetadata` and corresponding items from the space.
 
 By default, Trident processes a single batch at a time, waiting for the batch to succeed or fail before trying another batch. We can get significantly higher throughput  and lower latency of processing of each batch – by pipelining the batches. You configure the maximum amount of batches to be processed simultaneously with the “topology.max.spout.pending” property.
 
-Operations with PartitionedStream are encapsulated in remote service – PartitionedStreamService.
+Operations with `PartitionedStream` are encapsulated in remote service – `PartitionedStreamService`.
 
-Here is an example how to use XAPTransactionalTridentSpout:
+Here is an example how to use `XAPTransactionalTridentSpout`:
 
 ```java
 Config conf = new Config();
@@ -157,7 +157,7 @@ TridentState wordCounts = topology
                 .persistentAggregate(stateFactory, new Count(), new Fields("count")).parallelismHint(16);
 ```
 
-The full example that demonstrates usage of XAPTransactionalTridentSpout  to address classic Word Counter problem can be found in XAPTransactionalTridentSpoutTest. 
+The full example that demonstrates usage of `XAPTransactionalTridentSpout` to address classic *Word Counter* problem can be found in `XAPTransactionalTridentSpoutTest`. 
 
 # Trident State #
 
@@ -167,7 +167,7 @@ In Trident topology that is persisting state via this mechanism, the overall thr
 
 [IMAGE HERE]
 
-XAP Trident state implementation supports all state types – non-transactional, transactional and opaque.  All you need to create a Trident state is configure space url and choose appropriate factory method of XAPStateFactory class:
+XAP Trident state implementation supports all state types – non-transactional, transactional and opaque.  All you need to create a Trident state is configure space url and choose appropriate factory method of `XAPStateFactory` class:
 
 ```java
 Config conf = new Config();
@@ -181,17 +181,17 @@ TridentState wordCounts = topology
                 .persistentAggregate(stateFactory, new Count(), new Fields("count")).parallelismHint(16);
 ```
 
-The full example can be found in TridentWordCountTest.
+The full example can be found in `TridentWordCountTest`.
 
 ## Trident Read-Only state ##
 
 Trident Read-Only state allows to lookup persistent data during the computation.
 
-Consider Twitter Reach example. Reach is the number of unique people exposed to a URL on Twitter. To compute reach, you need to fetch all the people who ever tweeted a URL, fetch all the followers of all those people, unique that set of followers, and that count that uniqued set.
+Consider *Twitter Reach* example. Reach is the number of unique people exposed to a URL on Twitter. To compute reach, you need to fetch all the people who ever tweeted a URL, fetch all the followers of all those people, unique that set of followers, and that count that uniqued set.
 
-XAP is a good candidate to store reference data such as tweeted url and followers. You can easily create XAP read-only state with XAPReadOnlyStateFactory. The following example demonstrates how to create a read-only state for TweeterUrl and Followers classes. The input arguments that Trident pass to stateQuery() are used as space ids. 
+XAP is a good candidate to store reference data such as tweeted url and followers. You can easily create XAP read-only state with `XAPReadOnlyStateFactory`. The following example demonstrates how to create a read-only state for `TweeterUrl` and `Followers` classes. The input arguments that Trident pass to `stateQuery()` are used as space ids. 
 
-The full example can be found in TridentReachTest.
+The full example can be found in `TridentReachTest`.
 
 ```java
 TridentState tweetedUrls = topology.newStaticState(XAPReadOnlyStateFactory.byIds(TweetedUrl.class));
@@ -207,18 +207,18 @@ TridentState followers = topology.newStaticState(XAPReadOnlyStateFactory.byIds(F
                 .aggregate(new Fields("one"), new Sum(), new Fields("reach"));
 ```
 
-Another option to create XAP read-only state is to use SQL query. In this case stateQuery’s input arguments are used as SQL parameters:
+Another option to create XAP read-only state is to use SQL query. In this case `stateQuery’s` input arguments are used as SQL parameters:
 
 ```java
 SQLQuery<Person> sqlQuery = new SQLQuery<>(Person.class, "name = ? AND age > 30").setProjections("age");
 TridentState state = topology.newStaticState(XAPReadOnlyStateFactory.bySqlQuery(sqlQuery));
 ```
 
-The full example can be found in SqlQueryReadOnlyStateTest.
+The full example can be found in `SqlQueryReadOnlyStateTest`.
 
 # Storm bolts #
 
-If pure Storm suits better your needs, most likely you will want to read/write data from bolts to persistent storage. For instance, imagine you are processing stream of data and would like to present computation result on UI. So the final bolt in your topology pipeline should write result to XAP which can then be accessed from anywhere. For this purpose we created XAPAwareRichBolt and XAPAwareBasicBolt that have a reference to space proxy. All you need is to configure space url and extend XAP aware bolt. 
+If pure Storm suits better your needs, most likely you will want to read/write data from bolts to persistent storage. For instance, imagine you are processing stream of data and would like to present computation result on UI. So the final bolt in your topology pipeline should write result to XAP which can then be accessed from anywhere. For this purpose we created `XAPAwareRichBolt` and `XAPAwareBasicBolt` that have a reference to space proxy. All you need is to configure space url and extend XAP aware bolt. 
 
 Example:
 
@@ -234,7 +234,7 @@ public class TotalActiveUsersBolt extends XAPAwareBasicBolt {
 
 # Illustrative example: Real-time Google Analytics  #
 
-In this section we demonstrate how to build highly available, scalable equivalent of Real-time Google Analytics application and deploy it to cloud with one click using Cloudify. 
+In this section we demonstrate how to build highly available, scalable equivalent of *Real-time Google Analytics* application and deploy it to cloud with one click using *Cloudify*. 
 
 Real-Time Google Analytics allows you to monitor activity as it happens on your site. The reports are updated continuously and each page view is reported seconds after it occurs on your site. For example, you can see:
 - how many people are on your site right now
@@ -249,7 +249,7 @@ Real-Time Google Analytics allows you to monitor activity as it happens on your 
 
 [IMAGE HERE]
 
-PageView feeder is a standalone java application that simulates users on the site. It continuously sends PageView json to rest service endpoints deployed in XAP web PU. PageView looks like this
+*PageView feeder* is a standalone java application that simulates users on the site. It continuously sends `PageView` json to rest service endpoints deployed in XAP web PU. PageView looks like this
 
 ```json
 {
@@ -276,9 +276,9 @@ Top urls report displays top 10 visited urls for the last ten seconds. Topology 
 
 [IMAGE HERE]
 
-Tuples flow from spout to UrlRollingCountBolt grouped by ‘url’. UrlRollingCountBolt calculates rolling count with sliding windows of 10 seconds for every url. Sliding windows is basically a cyclic buffer with a head pointing to current slot. When bolt receives new tuple, it finds a sliding window for this tuple and increments the number in current slot. Every two seconds UrlRollingCountBolt emits the sum of sliding window for every url, then sliding windows advance and head points to the next slot. 
+Tuples flow from spout to `UrlRollingCountBolt` grouped by ‘url’. `UrlRollingCountBolt` calculates rolling count with sliding windows of 10 seconds for every url. Sliding windows is basically a cyclic buffer with a head pointing to current slot. When bolt receives new tuple, it finds a sliding window for this tuple and increments the number in current slot. Every two seconds `UrlRollingCountBolt` emits the sum of sliding window for every url, then sliding windows advance and head points to the next slot. 
 
-The url and its rolling count flow to IntermediateRankingsBolt which maintains pair of (url, count) in sorted by count order and emits its top 10 urls to the final stage. TotalUrlRankingBolt calculates the global top 10 urls and writes report object to XAP space. The primitives to implement rolling count algorithm can be found in [storm-starter](https://github.com/apache/incubator-storm/tree/master/examples/storm-starter) project.
+The url and its rolling count flow to `IntermediateRankingsBolt` which maintains pair of (url, count) in sorted by count order and emits its top 10 urls to the final stage. `TotalUrlRankingBolt` calculates the global top 10 urls and writes report object to XAP space. The primitives to implement rolling count algorithm can be found in [storm-starter](https://github.com/apache/incubator-storm/tree/master/examples/storm-starter) project.
 
 Top referrals topology branch is identical to top urls one. The only difference in is that we calculate ‘referral’ rather than ‘url’ tuple field.
 
@@ -288,9 +288,9 @@ Active users report displays how many people on the site right now. We assume th
 
 [IMAGE HERE]
 
-Tuples flow from spout to PartitionedActiveUsersBolt grouped by ‘sessionId’. For every sessionId  PartitionedActiveUsersBolt  keeps track of the last seen time. Every second it removes sessions seen last time earlier than N seconds before and then emits the number of remaining ones.
+Tuples flow from spout to `PartitionedActiveUsersBolt` grouped by ‘sessionId’. For every sessionId  `PartitionedActiveUsersBolt`  keeps track of the last seen time. Every second it removes sessions seen last time earlier than N seconds before and then emits the number of remaining ones.
 
-TotalActiveUsersBolt maintains a map of [source_task, count] and emits the total count for all sources. Report is written to XAP. 
+`TotalActiveUsersBolt` maintains a map of [source_task, count] and emits the total count for all sources. Report is written to XAP. 
 
 ## Page view time series topology branch ##
 
@@ -298,7 +298,7 @@ Page view time series report displays the dynamic of visited pages for last minu
 
 [IMAGE HERE]
 
-PageViewCountBolt calculates the number of page views and passes local count to PageViewTimeSeriesBolt every second. PageViewTimeSeriesBolt maintains a sliding window counter and writes report to XAP space.  
+`PageViewCountBolt` calculates the number of page views and passes local count to PageViewTimeSeriesBolt every second. `PageViewTimeSeriesBolt` maintains a sliding window counter and writes report to XAP space.  
 
 ## Geo topology branch ##
 
@@ -306,40 +306,38 @@ Geo report displays a map of users’ geographical location. Depending on the vo
 
 [IMAGE HERE]
 
-IP address converted to country using [MaxMind GeoIP database](http://dev.maxmind.com/). The database is a binary file loaded into GeoIPBolt’s heap. GeoIpLookupService ensures that it’s loaded only once per JVM. 
+IP address converted to country using [MaxMind GeoIP database](http://dev.maxmind.com/). The database is a binary file loaded into `GeoIPBolt’s` heap. `GeoIpLookupService` ensures that it’s loaded only once per JVM. 
 
 ## Building the Application ##
 
 1. [Download](http://www.gigaspaces.com/LatestProductVersion) and [install](http://wiki.gigaspaces.com/wiki/display/XAP95/Installing+GigaSpaces) XAP
 2.	Install Maven and the GigaSpaces Maven plug-in
 3.	The application source can be found under [INSERT_PATH_HERE]
-4.	Build the project by running
-mvn clean install
+4.	Build the project by running `mvn clean install`
 
 ## Deploying in development environment ##
 
 1.	Follow this [documentation](https://storm.incubator.apache.org/documentation/Setting-up-a-Storm-cluster.html) to install and run Zookeeper, Nimbus, Supervisor and optionally Storm UI.
-2.	Start a [Grid Service Agent](http://wiki.gigaspaces.com/wiki/display/XAP95/The+Grid+Service+Agent) by running the gs-agent.sh/bat script
+2.	Start a [Grid Service Agent](http://wiki.gigaspaces.com/wiki/display/XAP95/The+Grid+Service+Agent) by running the `gs-agent.sh/bat` script
 3.	Deploy space and Web PU by running the following from project root folder:
+```shell
 cd google-analytics
 mvn os:deploy
-4.	Add apache-storm-0.9.2-incubating/bin to your $PATH
+```
+4.	Add `apache-storm-0.9.2-incubating/bin` to your `$PATH`
 5.	Run the following to deploy topology to Storm cluster
-storm jar ./storm-topology/target/storm-topology-1.0-SNAPSHOT.jar com.gigaspaces.storm.googleanalytics.topology.GoogleAnalyticsTopology google-analytics 127.0.0.1
+`storm jar ./storm-topology/target/storm-topology-1.0-SNAPSHOT.jar com.gigaspaces.storm.googleanalytics.topology.GoogleAnalyticsTopology google-analytics 127.0.0.1`
 6.	Run feeder
-java -jar ./feeder/target/feeder-1.0-SNAPSHOT.jar 127.0.0.1
+`java -jar ./feeder/target/feeder-1.0-SNAPSHOT.jar 127.0.0.1`
 7.	Open browser [http://localhost:8090/web/](http://localhost:8090/web/) to view Google Analytics UI
-8.	To undeploy topology run 
-storm kill google-analytics
+8.	To undeploy topology run `storm kill google-analytics`
 
 ## Deploying in development environment with embedded Storm ##
 
 1.	To run topology in embedded Storm you don’t need to install Zookeeper and Storm. Follow all steps from previous section except deployment to Strom. 
-2.	Open google-analytics/storm-topology/pom.xml and change scope of storm-core artifact from ‘provided’ to ‘compile’.
+2.	Open `google-analytics/storm-topology/pom.xml` and change scope of storm-core artifact from ‘provided’ to ‘compile’.
 3.	Rebuild the project
-4.	Run storm topology 
-java -jar ./storm-topology/target/storm-topology-1.0-SNAPSHOT.jar
-Alternatively you can GoogleAnalyticsTopology from your IDE. 
+4.	Run storm topology `java -jar ./storm-topology/target/storm-topology-1.0-SNAPSHOT.jar`. Alternatively you can GoogleAnalyticsTopology from your IDE. 
 
 
 ## Deployment to cloud ##
