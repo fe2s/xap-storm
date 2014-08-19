@@ -312,15 +312,15 @@ IP address converted to country using [MaxMind GeoIP database](http://dev.maxmin
 
 1. [Download](http://www.gigaspaces.com/LatestProductVersion) and [install](http://wiki.gigaspaces.com/wiki/display/XAP95/Installing+GigaSpaces) XAP
 2.	Install Maven and the GigaSpaces Maven plug-in
-3.	The application source can be found under [INSERT_PATH_HERE]
+3.	The application source can be found under [INSERT GITHUB URL HERE]
 4.	Build the project by running `mvn clean install`
 
 ## Deploying in development environment ##
 
 1.	Follow this [documentation](https://storm.incubator.apache.org/documentation/Setting-up-a-Storm-cluster.html) to install and run Zookeeper, Nimbus, Supervisor and optionally Storm UI.
 2.	Start a [Grid Service Agent](http://wiki.gigaspaces.com/wiki/display/XAP95/The+Grid+Service+Agent) by running the `gs-agent.sh/bat` script
-3.	Deploy space and Web PU by running the following from project root folder:
-```shell
+3.	Deploy space and Web PU by running the following from project root folder: 
+```
 cd google-analytics
 mvn os:deploy
 ```
