@@ -17,6 +17,8 @@ context=ServiceContextFactory.serviceContext
 config = new ConfigSlurper().parse(new File(context.serviceName+"-service.properties").toURL())
 
 
+println "debug: context.serviceDirectory = ${context.serviceDirectory}"
+
 new AntBuilder().sequential {
     mkdir(dir: "${config.installDir}")
     get(src: config.downloadPath, dest: "${config.installDir}/${config.zipName}", skipexisting: true)
