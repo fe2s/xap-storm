@@ -26,7 +26,7 @@ println "lookup server ip is: ${lookuplocators}"
 
 def builder = new AntBuilder()
 builder.sequential {
-  exec(executable:"/tmp/install/apache-storm-0.9.2-incubating/bin/storm") {
+  exec(executable:"/tmp/install/storm-nimbus/apache-storm-0.9.2-incubating/bin/storm") {
        arg(line:"jar commands/storm-topology-1.0-SNAPSHOT.jar com.gigaspaces.storm.googleanalytics.topology.GoogleAnalyticsTopology google ${lookuplocators}")
 
     }

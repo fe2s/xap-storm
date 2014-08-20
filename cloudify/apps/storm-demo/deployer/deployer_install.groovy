@@ -19,11 +19,15 @@ config = new ConfigSlurper().parse(new File(context.serviceName+"-service.proper
 
 println "debug: context.serviceDirectory = ${context.serviceDirectory}"
 
+if (!context.isLocalCloud()) {
+    new AntBuilder().sequential {
+        mkdir(dir: "${config.installDir}")
+        get(src: config.downloadPath, dest: "${config.installDir}/${config.zipName}", skipexisting: true)
+        unzip(src: "${config.installDir}/${config.zipName}", dest: config.installDir, overwrite: true)
+        chmod(dir: "${config.installDir}/${config.xapDir}/bin", perm: "+x", includes: "*.sh")
+    }
+}
 new AntBuilder().sequential {
-    mkdir(dir: "${config.installDir}")
-    get(src: config.downloadPath, dest: "${config.installDir}/${config.zipName}", skipexisting: true)
-    unzip(src: "${config.installDir}/${config.zipName}", dest: config.installDir, overwrite: true)
-    chmod(dir: "${config.installDir}/${config.xapDir}/bin", perm: "+x", includes: "*.sh")
     chmod(dir: "${context.serviceDirectory}/files/", perm: "+x", includes: "*.sh")
 }
 

@@ -37,7 +37,7 @@ if (statsHostInstances == null) {
 def builder = new AntBuilder()
 builder.sequential {
     exec(executable:"${config.installDir}/${config.xapDir}/bin/gs.sh") {
-        arg(line:"deploy -cluster total_members=1,0 ${config.space}")
+        arg(line:"deploy-space -cluster total_members=2,0 space")
         env(key:"LOOKUPLOCATORS", value:"${look}")
 
     }
