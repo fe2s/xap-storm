@@ -5,6 +5,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
+import java.util.UUID;
 
 /**
  * Converts IP address to country.
@@ -24,7 +25,7 @@ public class GeoIpLookupService {
 
     private GeoIpLookupService() {
         try {
-            File db = copyDbToTempDirIfRequired();
+            File db = copyDbToTempDir();
             lookupService = new LookupService(db, LookupService.GEOIP_MEMORY_CACHE);
         } catch (Exception e) {
             throw new RuntimeException("Unable to init GeoIp database ", e);
@@ -32,14 +33,14 @@ public class GeoIpLookupService {
     }
 
     // maxmind api requires a reference to File, so we have to extract it from jar
-    private File copyDbToTempDirIfRequired() throws IOException {
+    private File copyDbToTempDir() throws IOException {
         File tempDirectory = FileUtils.getTempDirectory();
-        File dbInTempDir = new File(tempDirectory + File.separator + DB_FILE_NAME);
-        if (!dbInTempDir.exists()) {
-            InputStream dbStream = this.getClass().getClassLoader().getResourceAsStream(DB_FILE_NAME);
-            IOUtils.copy(dbStream, new FileOutputStream(dbInTempDir));
+        // GUID is required to avoid clashes between several workers(JVMs) on a single machine. This could be optimized
+        // with some kind of a lock
+        File dbInTempDir = new File(tempDirectory + File.separator + DB_FILE_NAME + "-" + UUID.randomUUID().toString());
+        InputStream dbStream = this.getClass().getClassLoader().getResourceAsStream(DB_FILE_NAME);
+        IOUtils.copy(dbStream, new FileOutputStream(dbInTempDir));
 
-        }
         return dbInTempDir;
     }
 
