@@ -31,7 +31,6 @@ public class OverallReport implements Serializable {
         this.siteId = siteId;
     }
 
-    @SpaceIndex
     public ActiveUsersReport getActiveUsersReport() {
         return activeUsersReport;
     }
