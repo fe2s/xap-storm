@@ -8,4 +8,10 @@ As part of this integration we provide classic Word Counter and Twitter Reach im
 
 Also, we demonstrate how to build highly available, scalable equivalent of Realtime Google Analytics application with XAP and Storm. Application can be deployed to cloud with one click using Cloudify. 
 
-![alt tag](https://github.com/fe2s/xap-storm/blob/master/docs/images/storm-screen-with-browser.png)
+
+[Read more](https://github.com/fe2s/xap-storm/blob/master/docs/xap-storm-doc.md)
+
+
+![alt tag](https://github.com/fe2s/xap-storm/blob/master/docs/images/storm-screen-with-browser.jpg)
+
+
