@@ -41,7 +41,7 @@ public class GoogleAnalyticsTopology {
             String topologyName = args[0];
             String gsmLocator = args[1];
 
-            conf.put(ConfigConstants.XAP_SPACE_URL_KEY, "jini://" + gsmLocator + "/*/space");
+            conf.put(ConfigConstants.XAP_SPACE_URL_KEY, "jini://" + gsmLocator + "/*/space?groups=storm");
             StormSubmitter.submitTopologyWithProgressBar(topologyName, conf, stormTopology);
         } else if (args.length == 0) {
             conf.put(ConfigConstants.XAP_SPACE_URL_KEY, "jini://*/*/space");

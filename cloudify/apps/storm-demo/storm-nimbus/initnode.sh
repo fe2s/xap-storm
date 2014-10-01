@@ -5,6 +5,8 @@ if [ $USER = root ]; then
 	SUDO=""
 fi
 
+$SUDO yum -y install wget
+
 if [ -z "$JAVA_HOME" ]; then export JAVA_HOME=$HOME/java; fi
 
 if [ -f /usr/local/lib/libzmq.a ]; then
