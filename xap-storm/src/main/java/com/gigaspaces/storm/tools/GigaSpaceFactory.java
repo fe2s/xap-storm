@@ -22,11 +22,11 @@ public class GigaSpaceFactory {
         if (gigaSpaces.containsKey(spaceUrl)){
             return gigaSpaces.get(spaceUrl);
         } else {
-            return getOrCreateInstance(spaceUrl);
+            return createInstanceIfRequired(spaceUrl);
         }
     }
 
-    private static synchronized GigaSpace getOrCreateInstance(String spaceUrl){
+    private static synchronized GigaSpace createInstanceIfRequired(String spaceUrl){
         if (gigaSpaces.containsKey(spaceUrl)) {
             return gigaSpaces.get(spaceUrl);
         }
