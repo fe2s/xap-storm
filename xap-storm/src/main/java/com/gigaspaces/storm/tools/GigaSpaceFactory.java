@@ -14,18 +14,25 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class GigaSpaceFactory {
 
+    private static final int LOOKUP_TIMEOUT = 60000;
+
     private static Map<String, GigaSpace> gigaSpaces = new ConcurrentHashMap<String, GigaSpace>();
 
     public static GigaSpace getInstance(String spaceUrl){
         if (gigaSpaces.containsKey(spaceUrl)){
             return gigaSpaces.get(spaceUrl);
         } else {
-            return createInstance(spaceUrl);
+            return getOrCreateInstance(spaceUrl);
         }
     }
 
-    private static synchronized GigaSpace createInstance(String spaceUrl){
+    private static synchronized GigaSpace getOrCreateInstance(String spaceUrl){
+        if (gigaSpaces.containsKey(spaceUrl)) {
+            return gigaSpaces.get(spaceUrl);
+        }
+
         UrlSpaceConfigurer urlSpaceConfigurer = new UrlSpaceConfigurer(spaceUrl);
+        urlSpaceConfigurer.lookupTimeout(LOOKUP_TIMEOUT);
         GigaSpace gigaSpace = new GigaSpaceConfigurer(urlSpaceConfigurer.space()).gigaSpace();
         gigaSpaces.put(spaceUrl, gigaSpace);
         return gigaSpace;
