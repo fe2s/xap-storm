@@ -43,7 +43,7 @@ application {
 	}
     service {
         name = "deployer"
-        dependsOn = ["xap-management"]
+        dependsOn = ["xap-container"]
     }
 
 }

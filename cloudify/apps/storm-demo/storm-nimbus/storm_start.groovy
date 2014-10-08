@@ -18,10 +18,7 @@ import java.util.concurrent.TimeUnit
 config = new ConfigSlurper().parse(new File("storm-service.properties").toURL())
 
 new AntBuilder().sequential {
-	exec(executable:"${config.script}", osfamily:"unix", spawn:"true") {
-		arg(line:"nimbus")
-	}
 	exec(executable:"${config.script}", osfamily:"unix") {
-		arg(line:"ui")
+		arg(line:"nimbus")
 	}
 }

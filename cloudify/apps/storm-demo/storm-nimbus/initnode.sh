@@ -20,32 +20,4 @@ if [ -f "/etc/issue" -a -n "`grep -i centos /etc/issue`" ]; then
   $SUDO yum -y install pkgconfig e2fsprogs-devel
 fi
 
-#libtool
-LIBTOOLDIR=libtool-1.5.24
-wget ftp://ftp.gnu.org/gnu/libtool/${LIBTOOLDIR}.tar.gz
-tar xzf ${LIBTOOLDIR}.tar.gz
-cd ${LIBTOOLDIR}
-./configure
-make
-cd ..
-
-# zmq
-wget "http://download.zeromq.org/zeromq-2.1.7.tar.gz"
-tar xzf zeromq-2.1.7.tar.gz
-cd zeromq-2.1.7
-./autogen.sh
-autoconf
-automake
-./configure
-cp -f ../${LIBTOOLDIR}/libtool .
-$SUDO make install
-cd ..
-
-# jzmq
-env GIT_SSL_NO_VERIFY=true git clone https://github.com/nathanmarz/jzmq.git
-cd jzmq
-./autogen.sh
-./configure
-make
-$SUDO make install
 
