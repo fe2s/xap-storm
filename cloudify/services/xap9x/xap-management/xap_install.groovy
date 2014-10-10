@@ -23,6 +23,13 @@ config = new ConfigSlurper().parse(new File(context.serviceName + "-service.prop
 webuiPort = context.attributes.thisInstance.webui_port
 println "webui will be available on port: ${webuiPort}"
 
+if (context.isLocalCloud()) {
+    new AntBuilder().sequential {
+        chmod(dir:"commands", perm:'ugo+rx', includes:"*.sh")
+        exec(executable:'commands/ulimit.sh')
+    }
+}
+
 if (!new File("${config.installDir}/${config.xapDir}").exists()) {
     println "Downloading XAP to ${config.installDir}/${config.xapDir}"
     new AntBuilder().sequential {
